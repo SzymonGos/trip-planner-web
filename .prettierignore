@@ -1,0 +1,6 @@
+genqlTypes
+.next
+.keystone
+schema.graphql
+schema.prisma
+modules/graphql-types/src

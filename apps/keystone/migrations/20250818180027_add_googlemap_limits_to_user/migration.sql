@@ -1,0 +1,4 @@
+-- AlterTable
+ALTER TABLE "User"
+ADD COLUMN "googleMapsRouteCount" INTEGER DEFAULT 0,
+ADD COLUMN "googleMapsRouteResetDate" TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP;

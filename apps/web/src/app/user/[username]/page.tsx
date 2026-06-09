@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import { useQuery } from '@apollo/client';
 import { Container } from '@/components/Container/Container';
 import { UserTripsListContainer } from '@/features/user/components/UserTripsListContainer';
 import { Footer } from '@/components/Footer/Footer';

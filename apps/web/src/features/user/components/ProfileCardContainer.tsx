@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { ProfileCard } from './ProfileCard';
-import { useQuery } from '@apollo/client';
 import { useAuthenticatedUser } from '../hooks/useAuthenticatedUser';
 import { formatDate } from '@/features/trip/helpers/formatDate';
 import { getUserDataQuery } from '../server/db/getUserDataQuery';

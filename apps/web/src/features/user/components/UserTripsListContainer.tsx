@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import { useQuery } from '@apollo/client';
 import { getUserTripsQuery } from '../server/db/getUserTripsQuery';
 import { UserTripsList } from './UserTripsList';
 import { MultipleTripCardsLoader } from '@/features/trip/components/MultipleTripCardsLoader';

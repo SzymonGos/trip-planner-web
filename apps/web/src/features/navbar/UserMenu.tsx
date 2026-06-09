@@ -8,7 +8,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { useQuery } from '@apollo/client';
 import { getUserIdByClerkIdQuery } from '@/features/user/server/db/getUserIdByClerkIdQuery';
 import { SettingsIcon } from '@/components/Icons/SettingsIcon';
 import { UserIcon } from '@/components/Icons/UserIcon';

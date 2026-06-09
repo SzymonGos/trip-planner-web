@@ -5,7 +5,6 @@ import { AiChatSheet } from './AiChatSheet';
 import { chatReducer, initialState } from './helpers/chatReducer';
 import { CHAT_API_URL, USER_AI_CHAT_LIMIT } from '@/lib/config';
 import { useAuthenticatedUser } from '../user/hooks/useAuthenticatedUser';
-import { useMutation, useQuery } from '@apollo/client';
 import { updateUserChatUsageMutationQuery } from './server/actions/updateUserChatUsageMutationQuery';
 import { getUserUsageQuery } from './server/db/getUserUsageQuery';
 import { Toaster, toast } from 'sonner';

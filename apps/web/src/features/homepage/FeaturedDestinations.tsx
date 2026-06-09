@@ -1,9 +1,7 @@
 'use client';
 
-import { Trip as TTrip } from 'tp-graphql-types';
 import { TripCard } from '../trip/components/TripCard/TripCard';
 import { FC } from 'react';
-import { QueryRef, useReadQuery } from '@apollo/client';
 
 type TFeaturedDestinationsProps = {
   queryRef: QueryRef<{ trips: TTrip[] }>;

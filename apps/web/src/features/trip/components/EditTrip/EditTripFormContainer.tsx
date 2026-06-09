@@ -8,13 +8,10 @@ import { TAutocompleteProps, TFormValuesProps } from '../CreateTrip/CreateTripFo
 import { TDirectionsValueProps } from '@/lib/contexts/constants';
 import { tripSchema } from '../../helpers/formValidation';
 import { useGoogleMapsDirections } from '@/lib/contexts/DirectionsContext';
-import { useMutation } from '@apollo/client';
 import { updateTripMutationQuery } from '../../server/actions/updateTripMutationQuery';
-import { Trip as TTrip } from 'tp-graphql-types';
 import { TripFormProvider } from '../../contexts/TripFormProvider';
 import { Toaster, toast } from 'sonner';
 import { getTripUrl } from '../../helpers/getTripUrl';
-import { useReadQuery, QueryRef } from '@apollo/client';
 import { revalidateTripPages } from '../../server/actions/revalidateTrip';
 import { Breadcrumb } from '@/features/breadcrumb/Breadcrumb';
 import { useAuthenticatedUser } from '@/features/user/hooks/useAuthenticatedUser';

@@ -14,13 +14,8 @@ export default [
   { files: ['**/*.{js,mjs,cjs,ts}'] },
   { languageOptions: { globals: globals.browser } },
   {
-    ignores: [
-      '**/.keystone/**',
+    ignores: [     
       '**/.next/**',
-      '**/genqlTypes/**',
-      '**/schema.graphql/**',
-      '**/schema.prisma/**',
-      'modules/graphql-types/src/**',
       '.vscode',
     ],
   },

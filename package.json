@@ -8,9 +8,9 @@
     "modules/*"
   ],
   "scripts": {
-    "dev": "nx run-many --target=serve --projects=web,keystone --parallel",
-    "build": "nx run web:build",
-    "start": "nx run web:start",
+    "dev": "npm run dev",
+    "build": "npm run web:build",
+    "start": "npm run web:start",
     "lint:eslint": "eslint",
     "lint:eslint:fix": "npm run lint:eslint -- --fix",
     "lint:prettier": "prettier . --check",
@@ -24,10 +24,8 @@
     "eslint-config-next": "^15.1.6",
     "eslint-config-prettier": "^10.0.1",
     "globals": "^15.14.0",
-    "graphql": "^16.10.0",
     "husky": "^9.1.7",
     "lint-staged": "^15.4.3",
-    "nx": "20.3.1",
     "prettier": "^3.4.2",
     "prettier-plugin-sql": "^0.18.1",
     "typescript": "^5.7.3",

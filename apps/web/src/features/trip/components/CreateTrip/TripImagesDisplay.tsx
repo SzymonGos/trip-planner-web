@@ -5,7 +5,6 @@ import { CldImage } from 'next-cloudinary';
 import { Trash2 } from 'lucide-react';
 import { getCloudinaryImageSrc } from '@/features/user/utils/getCloudinaryImageSrc';
 import { useTripImages } from '../../hooks/useTripImages';
-import { useMutation } from '@apollo/client';
 import { deleteTripImageMutationQuery } from '../../server/actions/deleteTripImageMutationQuery';
 import { getTripQuery } from '../../server/db/getTripQuery';
 import cx from 'classnames';

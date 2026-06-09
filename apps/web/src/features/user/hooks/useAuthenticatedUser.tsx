@@ -1,7 +1,6 @@
 'use client';
 
 import { useMemo } from 'react';
-import { useQuery } from '@apollo/client';
 import { useAuth } from '@clerk/nextjs';
 import { getUserIdByClerkIdQuery } from '../server/db/getUserIdByClerkIdQuery';
 

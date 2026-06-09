@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import { useQuery } from '@apollo/client';
 import { StatisticsCard } from './StatisticsCard';
 import { MapPinIcon } from '@/components/Icons/MapPinIcon';
 import { ClockIcon } from '@/components/Icons/ClockIcon';

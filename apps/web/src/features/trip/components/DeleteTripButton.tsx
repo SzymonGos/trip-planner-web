@@ -1,7 +1,6 @@
 'use client';
 
 import React, { FC, useState } from 'react';
-import { useMutation } from '@apollo/client';
 import { useRouter } from 'next/navigation';
 import { DeleteIcon } from '@/components/Icons/DeleteIcon';
 import { Button } from '@/components/ui/button';

@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState } from 'react';
-import { useMutation } from '@apollo/client';
 import { useAuth, useClerk } from '@clerk/nextjs';
 import { deleteUserMutationQuery } from '../server/actions/deleteUserMutationQuery';
 import { useAuthenticatedUser } from '../hooks/useAuthenticatedUser';

@@ -4,7 +4,6 @@ import React, { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { CreateTripForm } from './CreateTripForm';
 import { useGoogleMapsDirections } from '@/lib/contexts/DirectionsContext';
-import { useMutation } from '@apollo/client';
 import { createTripMutationQuery } from '../../server/actions/createTripMutationQuery';
 import { useAuthenticatedUser } from '@/features/user/hooks/useAuthenticatedUser';
 import { z } from 'zod';

@@ -2,10 +2,8 @@
 
 import React, { useEffect } from 'react';
 import { useUser } from '@clerk/nextjs';
-import { CloudinaryImage_File, UserUpdateArgs } from 'tp-graphql-types';
 import { useAuthenticatedUser } from '@/features/user/hooks/useAuthenticatedUser';
 import { UserSettings } from './UserSettings';
-import { useQuery, useMutation } from '@apollo/client';
 import { getUserDataQuery } from '../server/db/getUserDataQuery';
 import { updateUserMutationQuery } from '../server/actions/updateUserMutationQuery';
 import { useForm } from 'react-hook-form';

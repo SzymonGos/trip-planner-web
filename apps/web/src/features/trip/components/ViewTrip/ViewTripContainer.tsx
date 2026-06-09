@@ -1,9 +1,7 @@
 'use client';
 
 import React, { FC, useEffect, useState } from 'react';
-import { useReadQuery, QueryRef } from '@apollo/client';
 import { ViewTrip } from './ViewTrip';
-import { Trip as TTrip } from 'tp-graphql-types';
 import { useAuthenticatedUser } from '@/features/user/hooks/useAuthenticatedUser';
 import { useGoogleMapsDirections } from '@/lib/contexts/DirectionsContext';
 

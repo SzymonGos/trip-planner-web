@@ -4,15 +4,12 @@ import React, { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { CreateTripForm } from './CreateTripForm';
 import { useGoogleMapsDirections } from '@/lib/contexts/DirectionsContext';
-import { createTripMutationQuery } from '../../server/actions/createTripMutationQuery';
 import { useAuthenticatedUser } from '@/features/user/hooks/useAuthenticatedUser';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { tripSchema } from '../../helpers/formValidation';
 import { useRouter } from 'next/navigation';
 import { getTripUrl } from '../../helpers/getTripUrl';
-import { getUserTripsQuery } from '@/features/user/server/db/getUserTripsQuery';
-import { getTripsQuery } from '../../server/db/getTripsQuery';
 import { TripFormProvider } from '../../contexts/TripFormProvider';
 import { TTripImageFormValueProps } from '../../hooks/useTripFormSync';
 import { useGoogleMapLoader } from '@/features/googleMap/hooks/useGoogleMapLoader';
@@ -37,7 +34,8 @@ export const CreateTripFormContainer = () => {
   const router = useRouter();
   const { isLoaded: isMapLoaded } = useGoogleMapLoader();
 
-  const [createTripMutation, { loading }] = useMutation(createTripMutationQuery);
+  // todo: create trip api
+  console.log(distanceInfo);
 
   const defaultValues = {
     title: '',
@@ -72,30 +70,10 @@ export const CreateTripFormContainer = () => {
     try {
       const files = (data.images || []).filter((img): img is File => img instanceof File);
       const tripImages = files.map((file) => ({ image: file }));
-      const createTripResponse = await createTripMutation({
-        variables: {
-          data: {
-            title: data.title,
-            description: data.description,
-            origin: data.origin,
-            destination: data.destination,
-            status: data.status,
-            tripImages: {
-              create: tripImages,
-            },
-            creator: {
-              connect: {
-                id: authUserId,
-              },
-            },
-            distance: distanceInfo.distance,
-            estimatedDuration: distanceInfo.duration,
-          },
-        },
-        refetchQueries: [{ query: getTripsQuery }, { query: getUserTripsQuery }],
-      });
+      console.log(tripImages);
+      // create trip
 
-      const tripId = createTripResponse?.data?.createTrip?.id;
+      const tripId = '';
       useFormReturn.reset();
       handleClearDirections();
       router?.push(getTripUrl(tripId));
@@ -149,7 +127,8 @@ export const CreateTripFormContainer = () => {
           setOriginAutocomplete={setOriginAutocomplete}
           setDestinationAutocomplete={setDestinationAutocomplete}
           authUserId={authUserId}
-          loading={loading}
+          // create trip
+          loading={false}
         />
       </div>
     </TripFormProvider>

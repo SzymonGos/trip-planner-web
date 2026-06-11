@@ -3,26 +3,23 @@
 import React from 'react';
 import { ProfileCard } from './ProfileCard';
 import { useAuthenticatedUser } from '../hooks/useAuthenticatedUser';
-import { formatDate } from '@/features/trip/helpers/formatDate';
-import { getUserDataQuery } from '../server/db/getUserDataQuery';
-import { ProfileCardLoader } from './ProfileCardLoader';
+// import { formatDate } from '@/features/trip/helpers/formatDate';
+// import { ProfileCardLoader } from './ProfileCardLoader';
 
 type ProfileCardContainerProps = {
   userId: string;
 };
 
 export const ProfileCardContainer = ({ userId }: ProfileCardContainerProps) => {
-  const { data, loading } = useQuery(getUserDataQuery, {
-    variables: {
-      id: userId,
-    },
-  });
-  const user = data?.user;
+  console.log(userId);
+  // user api
+
+  const user = { id: '' };
   const { authUserId } = useAuthenticatedUser();
   const isOwnProfile = authUserId === user?.id;
-  const memberSince = formatDate(data?.user?.createdAt);
+  const memberSince = '';
 
-  if (loading) return <ProfileCardLoader />;
+  // if (loading) return <ProfileCardLoader />;
 
   return <ProfileCard user={user} isOwnProfile={isOwnProfile} memberSince={memberSince} />;
 };

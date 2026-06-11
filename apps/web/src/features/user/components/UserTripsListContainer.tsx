@@ -1,9 +1,8 @@
 'use client';
 
 import React from 'react';
-import { getUserTripsQuery } from '../server/db/getUserTripsQuery';
 import { UserTripsList } from './UserTripsList';
-import { MultipleTripCardsLoader } from '@/features/trip/components/MultipleTripCardsLoader';
+// import { MultipleTripCardsLoader } from '@/features/trip/components/MultipleTripCardsLoader';
 
 type UserTripListContainerProps = {
   userId: string;
@@ -11,17 +10,15 @@ type UserTripListContainerProps = {
 };
 
 export const UserTripsListContainer = ({ userId }: UserTripListContainerProps) => {
-  const { data, loading } = useQuery(getUserTripsQuery, {
-    variables: {
-      id: userId,
-    },
-  });
+  console.log(userId);
 
-  if (loading) return <MultipleTripCardsLoader count={3} />;
+  // get user trips api
+
+  // if (loading) return <MultipleTripCardsLoader count={3} />;
 
   return (
     <div className="mt-5 col-span-full lg:col-span-9">
-      <UserTripsList trips={data?.trips} isLoading={loading} />
+      <UserTripsList trips={{}} isLoading={false} />
     </div>
   );
 };

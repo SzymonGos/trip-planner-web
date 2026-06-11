@@ -1,12 +1,12 @@
 import React, { FC } from 'react';
-import { Trip as TTrip } from 'tp-graphql-types';
 import { TripCard } from '@/features/trip/components/TripCard/TripCard';
 import { EmptyTripsState } from '../../trip/EmptyTripsState';
 import { isEmpty } from 'lodash';
 import { useAuthenticatedUser } from '../hooks/useAuthenticatedUser';
 
 type TUserTripsListProps = {
-  trips: TTrip[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  trips: any;
   isLoading: boolean;
 };
 

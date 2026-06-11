@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react';
 import { useAuth, useClerk } from '@clerk/nextjs';
-import { deleteUserMutationQuery } from '../server/actions/deleteUserMutationQuery';
 import { useAuthenticatedUser } from '../hooks/useAuthenticatedUser';
 import { DeleteAccount } from './DeleteAccount';
 
@@ -14,7 +13,7 @@ export const DeleteAccountContainer = () => {
 
   const { signOut } = useClerk();
 
-  const [deleteUserMutation] = useMutation(deleteUserMutationQuery);
+  // delete user api
 
   const handleDeleteAccount = async () => {
     if (!clerkId || !authUserId) {
@@ -34,15 +33,8 @@ export const DeleteAccountContainer = () => {
       if (!clerkResponse.ok) {
         throw new Error('Failed to delete user from Clerk');
       }
-      await deleteUserMutation({
-        variables: {
-          where: { id: authUserId },
-          data: {
-            isDeleted: true,
-            deletedAt: new Date().toISOString(),
-          },
-        },
-      });
+
+      //  delete
 
       await signOut({ redirectUrl: '/' });
       setIsOpen(false);

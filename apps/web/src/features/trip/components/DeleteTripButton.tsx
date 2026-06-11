@@ -13,9 +13,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { deleteTripMutationQuery } from '../server/actions/deleteTripMutationQuery';
-import { getTripsQuery } from '../server/db/getTripsQuery';
-import { getUserTripsQuery } from '@/features/user/server/db/getUserTripsQuery';
 import { getTripsUrl } from '../helpers/getTripsUrl';
 
 type TDeleteTripButtonProps = {
@@ -28,16 +25,15 @@ export const DeleteTripButton: FC<TDeleteTripButtonProps> = ({ tripId, tripTitle
   const [isDeleting, setIsDeleting] = useState(false);
   const router = useRouter();
 
-  const [deleteTrip] = useMutation(deleteTripMutationQuery);
+  console.log(tripId);
+
+  // todo: delete trip api
 
   const handleDelete = async () => {
     try {
       setIsDeleting(true);
 
-      await deleteTrip({
-        variables: { where: { id: tripId } },
-        refetchQueries: [{ query: getTripsQuery }, { query: getUserTripsQuery }],
-      });
+      // delete
 
       setIsOpen(false);
       router.push(getTripsUrl());

@@ -1,9 +1,7 @@
-import { PreloadQuery } from '@/lib/apolloClient';
+// import { PreloadQuery } from '@/lib/apolloClient';
 import React from 'react';
 import { FeaturedDestinations } from './FeaturedDestinations';
-import { getHomePageRecommededTripsQuery } from '../trip/server/db/getHomePageRecommendedTrips';
 import { Suspense } from 'react';
-import { Trip as TTrip } from 'tp-graphql-types';
 import { Container } from '@/components/Container/Container';
 import { MultipleTripCardsLoader } from '../trip/components/MultipleTripCardsLoader';
 
@@ -16,7 +14,7 @@ export const FeaturedDestinationsContainer = () => (
         adventure.
       </p>
     </div>
-    <PreloadQuery<{ trips: TTrip[] }, { id: string }>
+    {/* <PreloadQuery<{ trips: TTrip[] }, { id: string }>
       query={getHomePageRecommededTripsQuery}
       context={{
         fetchOptions: {
@@ -25,12 +23,12 @@ export const FeaturedDestinationsContainer = () => (
           },
         },
       }}
-    >
-      {(queryRef) => (
-        <Suspense fallback={<MultipleTripCardsLoader />}>
-          <FeaturedDestinations queryRef={queryRef} />
-        </Suspense>
-      )}
-    </PreloadQuery>
+    > */}
+    {(queryRef) => (
+      <Suspense fallback={<MultipleTripCardsLoader />}>
+        <FeaturedDestinations queryRef={queryRef} />
+      </Suspense>
+    )}
+    {/* </PreloadQuery> */}
   </Container>
 );

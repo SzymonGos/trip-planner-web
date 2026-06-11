@@ -8,7 +8,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { getUserIdByClerkIdQuery } from '@/features/user/server/db/getUserIdByClerkIdQuery';
 import { SettingsIcon } from '@/components/Icons/SettingsIcon';
 import { UserIcon } from '@/components/Icons/UserIcon';
 import { UsernameTrigger } from './UsernameTrigger';
@@ -19,23 +18,20 @@ import { getUserSettingsUrl } from '@/features/user/helpers/getUserSettingsUrl';
 
 type TUserMenuProps = {
   userName: string;
-  clerkId: string;
+  clerkId?: string;
 };
 
 export const UserMenu: FC<TUserMenuProps> = ({ userName, clerkId }) => {
   const { sessionId } = useAuth();
 
-  const { data } = useQuery(getUserIdByClerkIdQuery, {
-    variables: {
-      clerkId: clerkId,
-    },
-  });
+  console.log(clerkId);
+  // get user by clerkId api
 
   return (
     <div>
       <DropdownMenu>
         <DropdownMenuTrigger>
-          <UsernameTrigger userName={userName} profileImageId={data?.user?.profileImage?.id} />
+          <UsernameTrigger userName={userName} profileImageId={''} />
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-48">
           <DropdownMenuItem asChild>

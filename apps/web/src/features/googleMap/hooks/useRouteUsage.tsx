@@ -1,20 +1,17 @@
 import { useCallback, useRef } from 'react';
-import { updateUserRouteCountMutationQuery } from '../server/actions/updateUserRouteCountMutationQuery';
-import { getUserRouteCountQuery } from '../server/db/getUserRouteCountQuery';
 import { USER_GOOGLE_MAPS_ROUTE_LIMIT } from '@/lib/config';
 
 export const useRouteUsage = (authUserId: string) => {
-  const { data: userData, refetch } = useQuery(getUserRouteCountQuery, {
-    variables: { id: authUserId },
-    skip: !authUserId,
-  });
+  // user roue count api
 
-  const [updateUserRouteCount] = useMutation(updateUserRouteCountMutationQuery);
+  // user rout ecount mutation
+
   const isProcessingRef = useRef(false);
   const completedRoutesRef = useRef<Set<string>>(new Set());
-  const currentRouteCount = userData?.user?.googleMapsRouteCount || 0;
+  const currentRouteCount = 0;
   const usagePercentage = Math.round((currentRouteCount / USER_GOOGLE_MAPS_ROUTE_LIMIT) * 100);
-  const resetDate = userData?.user?.googleMapsRouteResetDate;
+  // const resetDate = userData?.user?.googleMapsRouteResetDate;
+  const resetDate = '';
 
   const incrementRouteCount = useCallback(
     async (origin: string, destination: string) => {
@@ -33,13 +30,8 @@ export const useRouteUsage = (authUserId: string) => {
       isProcessingRef.current = true;
 
       try {
-        const newCount = currentRouteCount + 1;
-        await updateUserRouteCount({
-          variables: {
-            updateUserWhere: { id: authUserId },
-            data: { googleMapsRouteCount: newCount },
-          },
-        });
+        // const newCount = currentRouteCount + 1;
+        // user route count update
 
         completedRoutesRef.current.add(routeHash);
       } catch (error) {
@@ -48,7 +40,7 @@ export const useRouteUsage = (authUserId: string) => {
         isProcessingRef.current = false;
       }
     },
-    [authUserId, currentRouteCount, updateUserRouteCount],
+    [authUserId, currentRouteCount],
   );
 
   const canCreateRoute = currentRouteCount < USER_GOOGLE_MAPS_ROUTE_LIMIT;
@@ -59,6 +51,6 @@ export const useRouteUsage = (authUserId: string) => {
     resetDate,
     incrementRouteCount,
     canCreateRoute,
-    refetch,
+    // refetch,
   };
 };

@@ -5,23 +5,20 @@ import { StatisticsCard } from './StatisticsCard';
 import { MapPinIcon } from '@/components/Icons/MapPinIcon';
 import { ClockIcon } from '@/components/Icons/ClockIcon';
 import { formatDistance } from '../helpers/formatDistance';
-import { getUserCompletedTripsQuery } from '../server/db/getUserCompletedTripsQuery';
-import { StatiticsCardLoader } from './StatiticsCardLoader';
+// import { StatiticsCardLoader } from './StatiticsCardLoader';
 
 type StatisticsCardsContainerProps = {
   userId: string;
 };
 
 export const StatisticsCardsContainer = ({ userId }: StatisticsCardsContainerProps) => {
-  const { data, loading } = useQuery(getUserCompletedTripsQuery, {
-    variables: {
-      id: userId,
-    },
-  });
+  console.log(userId);
 
-  if (loading) return <StatiticsCardLoader />;
+  // completed trips api
 
-  const allTrips = (data as { trips?: Array<{ distance?: string; status?: string }> })?.trips || [];
+  // if (loading) return <StatiticsCardLoader />;
+
+  const allTrips = [];
   const completedTrips = allTrips.filter((trip) => trip.status === 'completed');
   const totalCompletedTrips = completedTrips.length;
 

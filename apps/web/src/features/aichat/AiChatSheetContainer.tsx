@@ -5,37 +5,28 @@ import { AiChatSheet } from './AiChatSheet';
 import { chatReducer, initialState } from './helpers/chatReducer';
 import { CHAT_API_URL, USER_AI_CHAT_LIMIT } from '@/lib/config';
 import { useAuthenticatedUser } from '../user/hooks/useAuthenticatedUser';
-import { updateUserChatUsageMutationQuery } from './server/actions/updateUserChatUsageMutationQuery';
-import { getUserUsageQuery } from './server/db/getUserUsageQuery';
 import { Toaster, toast } from 'sonner';
 
 export const AiChatSheetContainer = () => {
   const [state, dispatch] = useReducer(chatReducer, initialState);
   const { authUserId } = useAuthenticatedUser();
-  const { data: userData, refetch } = useQuery(getUserUsageQuery, {
-    variables: { id: authUserId },
-    skip: !authUserId,
-  });
-  const [updateUserUsage] = useMutation(updateUserChatUsageMutationQuery);
-  const currentUsage = userData?.user?.aiChatUsageCount || 0;
-  const usagePercentage = Math.round((currentUsage / USER_AI_CHAT_LIMIT) * 100);
+
+  // todo1: get user api
+  // todo2: update user api
+
+  // const currentUsage = userData?.user?.aiChatUsageCount || 0;
+  const currentUsage = 0;
+  // const usagePercentage = Math.round((currentUsage / USER_AI_CHAT_LIMIT) * 100);
 
   const trackMesssageCount = useCallback(async () => {
     if (!authUserId) return;
     try {
-      const currentCount = userData?.user?.aiChatUsageCount || 0;
-      const newCount = currentCount + 1;
-      await updateUserUsage({
-        variables: {
-          updateUserWhere: { id: authUserId },
-          data: { aiChatUsageCount: newCount },
-        },
-      });
-      await refetch();
+      // const currentCount = userData?.user?.aiChatUsageCount || 0;
+      // const newCount = currentCount + 1;
     } catch (error) {
       console.error('Failed to update message count:', error);
     }
-  }, [authUserId, updateUserUsage, userData?.user?.aiChatUsageCount, refetch]);
+  }, [authUserId]);
 
   const handleSendMessage = useCallback(async () => {
     if (!state.inputValue.trim() || state.isLoading) return;
@@ -98,9 +89,9 @@ export const AiChatSheetContainer = () => {
         onSendMessage={handleSendMessage}
         onKeyPress={handleKeyPress}
         authUserId={authUserId}
-        currentUsage={currentUsage}
-        usagePercentage={usagePercentage}
-        resetDate={userData?.user?.aiChatUsageResetDate}
+        currentUsage={0}
+        usagePercentage={0}
+        resetDate={''}
       />
     </>
   );

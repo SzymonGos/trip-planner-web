@@ -5,8 +5,6 @@ import { CldImage } from 'next-cloudinary';
 import { Trash2 } from 'lucide-react';
 import { getCloudinaryImageSrc } from '@/features/user/utils/getCloudinaryImageSrc';
 import { useTripImages } from '../../hooks/useTripImages';
-import { deleteTripImageMutationQuery } from '../../server/actions/deleteTripImageMutationQuery';
-import { getTripQuery } from '../../server/db/getTripQuery';
 import cx from 'classnames';
 import { TTripImageFormValueProps } from '../../hooks/useTripFormSync';
 
@@ -21,7 +19,9 @@ export const TripImagesDisplay: FC<TTripImagesDisplayProps> = ({ className, disa
   const { handleExistingImagesRemove } = useTripImages();
   const [deletingImageId, setDeletingImageId] = useState<string | null>(null);
 
-  const [deleteTripImage] = useMutation(deleteTripImageMutationQuery);
+  console.log(tripId);
+
+  // todo: delete trip image api
 
   const handleRemove = async (imageId: string) => {
     if (disabled || !imageId) return;
@@ -29,10 +29,7 @@ export const TripImagesDisplay: FC<TTripImagesDisplayProps> = ({ className, disa
     try {
       setDeletingImageId(imageId);
 
-      await deleteTripImage({
-        variables: { where: { id: imageId } },
-        refetchQueries: tripId ? [{ query: getTripQuery, variables: { id: tripId } }] : [],
-      });
+      // delet trip
 
       handleExistingImagesRemove(imageId);
       setDeletingImageId(null);

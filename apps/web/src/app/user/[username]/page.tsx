@@ -4,7 +4,6 @@ import React from 'react';
 import { Container } from '@/components/Container/Container';
 import { UserTripsListContainer } from '@/features/user/components/UserTripsListContainer';
 import { Footer } from '@/components/Footer/Footer';
-import { getUserDataByUsernameQuery } from '@/features/user/server/db/getUserDataQuery';
 import { ProfileCardContainer } from '@/features/user/components/ProfileCardContainer';
 import { StatisticsCardsContainer } from '@/features/user/components/StatisticsCardsContainer';
 

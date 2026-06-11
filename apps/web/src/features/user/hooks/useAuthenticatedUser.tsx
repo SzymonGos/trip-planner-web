@@ -2,19 +2,15 @@
 
 import { useMemo } from 'react';
 import { useAuth } from '@clerk/nextjs';
-import { getUserIdByClerkIdQuery } from '../server/db/getUserIdByClerkIdQuery';
 
 export const useAuthenticatedUser = () => {
   const { userId: clerkId, isLoaded, isSignedIn } = useAuth();
 
-  const { data } = useQuery(getUserIdByClerkIdQuery, {
-    variables: {
-      clerkId,
-    },
-    skip: !clerkId || !isLoaded,
-  });
+  console.log(clerkId);
+  // get user id by clerk id
 
-  const authUserId = useMemo(() => data?.user?.id, [data]);
+  // const authUserId = useMemo(() => data?.user?.id, [data]);
+  const authUserId = useMemo(() => '1', []);
 
   const isAuth = isLoaded && isSignedIn && !!authUserId;
 

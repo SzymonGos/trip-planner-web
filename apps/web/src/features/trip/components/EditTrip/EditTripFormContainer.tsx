@@ -8,7 +8,6 @@ import { TAutocompleteProps, TFormValuesProps } from '../CreateTrip/CreateTripFo
 import { TDirectionsValueProps } from '@/lib/contexts/constants';
 import { tripSchema } from '../../helpers/formValidation';
 import { useGoogleMapsDirections } from '@/lib/contexts/DirectionsContext';
-import { updateTripMutationQuery } from '../../server/actions/updateTripMutationQuery';
 import { TripFormProvider } from '../../contexts/TripFormProvider';
 import { Toaster, toast } from 'sonner';
 import { getTripUrl } from '../../helpers/getTripUrl';
@@ -19,7 +18,9 @@ import { useGoogleMapLoader } from '@/features/googleMap/hooks/useGoogleMapLoade
 import { TripLoader } from '../TripLoader';
 
 type TEditTripFormContainerProps = {
-  queryRef: QueryRef<{ trip: TTrip }>;
+  // queryRef: QueryRef<{ trip: TTrip }>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  queryRef: any;
 };
 
 export const EditTripFormContainer: FC<TEditTripFormContainerProps> = ({ queryRef }) => {
@@ -30,10 +31,13 @@ export const EditTripFormContainer: FC<TEditTripFormContainerProps> = ({ queryRe
   const { authUserId } = useAuthenticatedUser();
   const { isLoaded } = useGoogleMapLoader();
 
-  const [updateTripMutation, { loading }] = useMutation(updateTripMutationQuery);
+  console.log(queryRef);
 
-  const { data } = useReadQuery(queryRef);
-  const trip = data?.trip;
+  // update trip api
+
+  // const { data } = useReadQuery(queryRef);
+  // const trip = data?.trip;
+  const trip = null;
 
   const defaultValues = {
     title: trip?.title,
@@ -102,12 +106,8 @@ export const EditTripFormContainer: FC<TEditTripFormContainerProps> = ({ queryRe
         };
       }
 
-      await updateTripMutation({
-        variables: {
-          where: { id: trip?.id },
-          data: updateData,
-        },
-      });
+      // update trip
+
       await revalidateTripPages(trip?.id);
       useFormReturn.reset(data);
       toast.success(`Trip "${data.title.trim().slice(0, 15)}..." updated successfully!`);
@@ -157,8 +157,8 @@ export const EditTripFormContainer: FC<TEditTripFormContainerProps> = ({ queryRe
       isEditing={true}
       onSubmit={handleSubmitCallback}
       onReset={handleClearDirections}
-      tripId={trip.id}
-      isSubmitting={loading}
+      // tripId={trip.id}
+      // isSubmitting={loading}
       hasChanges={isDirty}
     >
       <div className="relative pt-24 pb-10">
@@ -178,8 +178,8 @@ export const EditTripFormContainer: FC<TEditTripFormContainerProps> = ({ queryRe
             setDestinationAutocomplete={setDestinationAutocomplete}
             isEditing={true}
             authUserId={authUserId}
-            tripId={trip?.id}
-            tripTitle={trip?.title}
+            // tripId={trip?.id}
+            // tripTitle={trip?.title}
           />
         </div>
       </div>

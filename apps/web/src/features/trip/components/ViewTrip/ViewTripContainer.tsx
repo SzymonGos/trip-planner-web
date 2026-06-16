@@ -6,7 +6,7 @@ import { useAuthenticatedUser } from '@/features/user/hooks/useAuthenticatedUser
 import { useGoogleMapsDirections } from '@/lib/contexts/DirectionsContext';
 
 type TViewTripContainerProps = {
-  queryRef: QueryRef<{ trip: TTrip }>;
+  queryRef: any;
 };
 
 export const ViewTripContainer: FC<TViewTripContainerProps> = ({ queryRef }) => {
@@ -14,18 +14,19 @@ export const ViewTripContainer: FC<TViewTripContainerProps> = ({ queryRef }) => 
   const { authUserId } = useAuthenticatedUser();
   const [expanded, setExpanded] = useState(false);
 
-  const { data } = useReadQuery(queryRef);
-  const trip = data?.trip;
-  const isOwner = trip?.creator?.id === authUserId;
+  // const { data } = useReadQuery(queryRef);
+  // const trip = data?.trip;
+  const trip = [];
+  // const isOwner = trip?.creator?.id === authUserId;
 
   useEffect(() => {
-    if (trip?.origin && trip?.destination) {
-      setDirectionsValue({
-        origin: trip.origin,
-        destination: trip.destination,
-      });
-    }
+    // if (trip?.origin && trip?.destination) {
+    //   setDirectionsValue({
+    //     origin: trip.origin,
+    //     destination: trip.destination,
+    //   });
+    // }
   }, [trip, setDirectionsValue]);
 
-  return <ViewTrip trip={trip} isOwner={isOwner} expanded={expanded} setExpanded={setExpanded} />;
+  return <ViewTrip trip={trip} isOwner={false} expanded={expanded} setExpanded={setExpanded} />;
 };

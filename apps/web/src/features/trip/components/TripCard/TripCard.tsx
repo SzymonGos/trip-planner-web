@@ -2,7 +2,6 @@
 
 import Link from 'next/link';
 import React, { FC } from 'react';
-import { Trip as TTrip } from 'tp-graphql-types';
 import { getTripUrl } from '../../helpers/getTripUrl';
 import { TripStats } from '../TripStats';
 import { TripCardUserDetails } from './TripCardUserDetails';
@@ -11,7 +10,8 @@ import { TripCardDetails } from './TripCardDetails';
 import { TripCardStatusLabel } from './TripCardStatusLabe';
 
 type TTripCardProps = {
-  trip: TTrip;
+   
+  trip: any;
 };
 
 export const TripCard: FC<TTripCardProps> = ({ trip }) => (

@@ -1,13 +1,13 @@
 'use client';
 
 import React, { FC } from 'react';
-import { User as TUser } from 'tp-graphql-types';
 import { UserProfileImage } from './UserProfileImage';
 import { SettingsIcon } from '@/components/Icons/SettingsIcon';
 import Link from 'next/link';
 
 type ProfileCardProps = {
-  user: TUser;
+   
+  user: any;
   isOwnProfile: boolean;
   memberSince: string;
 };

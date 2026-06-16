@@ -1,13 +1,13 @@
 import React, { FC, useCallback, useState } from 'react';
 import useEmblaCarousel from 'embla-carousel-react';
-import { TripImage as TTripImage } from 'tp-graphql-types';
 import { TripImagesCarousel } from './TripImagesCarousel';
 import { isEmpty } from 'lodash';
 import { FullScreenGalleryContainer } from '@/features/gallery/FullScreenGalleryContainer';
 import Autoplay from 'embla-carousel-autoplay';
 
 interface TripImagesCarouselContainerProps {
-  images: TTripImage[];
+   
+  images: any;
 }
 
 export const TripImagesCarouselContainer: FC<TripImagesCarouselContainerProps> = ({ images }) => {

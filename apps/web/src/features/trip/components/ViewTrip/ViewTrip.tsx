@@ -1,7 +1,6 @@
 'use client';
 
 import React, { FC } from 'react';
-import { Trip as TTrip } from 'tp-graphql-types';
 import cx from 'classnames';
 import { TripImagesCarouselContainer } from './TripImagesCarouselContainer';
 import { UserProfileDetails } from '../UserProfileDetails';
@@ -12,7 +11,8 @@ import { TripTimeline } from './TripTimeline';
 import { ReadMoreButton } from '../ReadMoreButton';
 
 export type TViewTripProps = {
-  trip: TTrip;
+   
+  trip: any;
   isOwner: boolean;
   expanded: boolean;
   setExpanded: (expanded: boolean) => void;

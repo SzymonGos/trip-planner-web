@@ -8,9 +8,9 @@
     "modules/*"
   ],
   "scripts": {
-    "dev": "npm run dev",
-    "build": "npm run web:build",
-    "start": "npm run web:start",
+    "dev": "npm run dev --workspace web",
+    "build": "npm run build --workspace web",
+    "start": "npm run start --workspace web",
     "lint:eslint": "eslint",
     "lint:eslint:fix": "npm run lint:eslint -- --fix",
     "lint:prettier": "prettier . --check",

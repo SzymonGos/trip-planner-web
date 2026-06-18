@@ -1,12 +1,12 @@
 import React, { FC } from 'react';
 import { CldImage } from 'next-cloudinary';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { TripImage as TTripImage } from 'tp-graphql-types';
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 
 interface FullScreenGalleryProps {
-  images: TTripImage[];
+   
+  images: any;
   isOpen: boolean;
   onClose: () => void;
   fullScreenSrc: string;

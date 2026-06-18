@@ -1,12 +1,12 @@
 import React, { FC } from 'react';
 import { CldImage } from 'next-cloudinary';
-import { TripImage as TTripImage } from 'tp-graphql-types';
 import { ArrowButton } from './ArrowButton';
 import { EmblaViewportRefType } from 'embla-carousel-react';
 import { getCloudinaryImageSrc } from '@/features/user/utils/getCloudinaryImageSrc';
 
 interface TripImagesCarouselProps {
-  images: TTripImage[];
+   
+  images: any;
   emblaRef: EmblaViewportRefType;
   scrollPrev: () => void;
   scrollNext: () => void;

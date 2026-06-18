@@ -8,9 +8,9 @@
     "modules/*"
   ],
   "scripts": {
-    "dev": "npm run dev",
-    "build": "npm run web:build",
-    "start": "npm run web:start",
+    "dev": "npm run dev --workspace web",
+    "build": "npm run build --workspace web",
+    "start": "npm run start --workspace web",
     "lint:eslint": "eslint",
     "lint:eslint:fix": "npm run lint:eslint -- --fix",
     "lint:prettier": "prettier . --check",
@@ -21,7 +21,7 @@
   "devDependencies": {
     "@eslint/js": "^9.19.0",
     "@types/lodash": "^4.17.20",
-    "eslint-config-next": "^15.1.6",
+    "eslint-config-next": "^15.5.19",
     "eslint-config-prettier": "^10.0.1",
     "globals": "^15.14.0",
     "husky": "^9.1.7",

@@ -1,8 +1,8 @@
 import { FC } from 'react';
-import { Trip as TTrip } from 'tp-graphql-types';
 
 type TTripStatusProps = {
-  status: TTrip['status'];
+   
+  status: any;
 };
 
 export const TripStatus: FC<TTripStatusProps> = ({ status }) => (

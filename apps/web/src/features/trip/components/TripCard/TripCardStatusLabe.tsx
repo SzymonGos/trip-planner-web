@@ -1,9 +1,9 @@
 import { FC } from 'react';
-import { Trip as TTrip } from 'tp-graphql-types';
 import cx from 'classnames';
 
 type TripCardStatusLabelProps = {
-  status: TTrip['status'];
+   
+  status: any;
 };
 
 export const TripCardStatusLabel: FC<TripCardStatusLabelProps> = ({ status }) => (

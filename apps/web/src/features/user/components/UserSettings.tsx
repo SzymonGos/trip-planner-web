@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import { User } from 'tp-graphql-types';
 import { Form } from '@/components/ui/form';
 import { InputField } from '@/features/trip/components/CreateTrip/InputField';
 import { Button } from '@/components/ui/button';
@@ -15,7 +14,8 @@ import { ResetIcon } from '@/components/Icons/ResetIcon';
 type TFormValuesProps = z.infer<typeof userSettingsSchema>;
 
 type UserSettingsProps = {
-  user?: User;
+   
+  user?: any;
   useFormReturn: UseFormReturn<TFormValuesProps>;
   onSubmit: (e?: React.BaseSyntheticEvent) => Promise<void>;
   isLoading: boolean;

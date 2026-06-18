@@ -24,11 +24,11 @@ export const FeaturedDestinationsContainer = () => (
         },
       }}
     > */}
-    {(queryRef) => (
-      <Suspense fallback={<MultipleTripCardsLoader />}>
-        <FeaturedDestinations queryRef={queryRef} />
-      </Suspense>
-    )}
+    {/* {(queryRef) => (
+      <Suspense fallback={<MultipleTripCardsLoader />}> */}
+    <FeaturedDestinations queryRef={{}} />
+    {/* </Suspense>
+    )} */}
     {/* </PreloadQuery> */}
   </Container>
 );

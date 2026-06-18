@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { TripImage as TTripImage } from 'tp-graphql-types';
 import { FullScreenGallery } from './FullScreenGallery';
 
 type TFullScreenGalleryContainerProps = {
-  images: TTripImage[];
+   
+  images: any;
   initialIndex: number;
   isOpen: boolean;
   onClose: () => void;

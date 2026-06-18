@@ -13,6 +13,7 @@ const nextConfig = {
   images: {
     domains: [process.env.CLOUDINARY_API_DOMAIN || ''],
   },
+  outputFileTracingRoot: '/web',
 };
 
 module.exports = nextConfig;

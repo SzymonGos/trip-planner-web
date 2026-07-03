@@ -6,6 +6,7 @@ const nextConfig = {
     CLERK_WEBHOOK_SECRET: process.env.CLERK_WEBHOOK_SECRET || '',
     CLERK_SECRET_KEY: process.env.CLERK_SECRET_KEY || '',
     OPENAI_API_KEY: process.env.OPENAI_API_KEY || '',
+    API_URL: process.env.API_URL || '',
   },
   eslint: {
     ignoreDuringBuilds: true,

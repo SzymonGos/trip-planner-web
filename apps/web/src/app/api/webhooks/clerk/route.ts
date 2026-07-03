@@ -2,9 +2,7 @@ import { Webhook } from 'svix';
 import { headers } from 'next/headers';
 import { WebhookEvent } from '@clerk/nextjs/server';
 import { CLERK_WEBHOOK_SECRET } from '@/lib/config';
-import { PrismaClient } from '@prisma/client';
-
-const prisma = new PrismaClient();
+import { createUser } from '@/features/user/server/actions/createUser';
 
 export async function POST(req: Request) {
   const wh = new Webhook(CLERK_WEBHOOK_SECRET);
@@ -41,18 +39,16 @@ export async function POST(req: Request) {
   const eventType = evt.type;
 
   if (eventType === 'user.created') {
-    const thirtyDaysFromNow = new Date();
-    thirtyDaysFromNow.setDate(thirtyDaysFromNow.getDate() + 30);
-
-    await prisma.user.create({
-      data: {
+    try {
+      await createUser({
         clerkId: evt.data.id,
-        email: evt.data.email_addresses[0].email_address,
         username: evt.data.username,
-        aiChatUsageResetDate: thirtyDaysFromNow,
-        googleMapsRouteResetDate: thirtyDaysFromNow,
-      },
-    });
+        email: evt.data.email_addresses[0].email_address,
+      });
+    } catch (error) {
+      console.error('Failed to sync Clerk user:', error);
+      return new Response('Failed to sync user', { status: 500 });
+    }
   }
 
   return new Response('', { status: 200 });

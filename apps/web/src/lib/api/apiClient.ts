@@ -16,7 +16,7 @@ export async function apiClient<T>(endpoint: string, options: TApiClientOptions 
   const response = await fetch(`${API_URL}${endpoint}`, {
     method,
     headers: {
-      'Content-Type': 'aplication-json',
+      'Content-Type': 'application/json',
       ...headers,
     },
     body: body ? JSON.stringify(body) : undefined,

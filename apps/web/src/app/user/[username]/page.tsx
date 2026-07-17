@@ -6,18 +6,26 @@ import { UserTripsListContainer } from '@/features/user/components/UserTripsList
 import { Footer } from '@/components/Footer/Footer';
 import { ProfileCardContainer } from '@/features/user/components/ProfileCardContainer';
 import { StatisticsCardsContainer } from '@/features/user/components/StatisticsCardsContainer';
+import { useAuthenticatedUser } from '@/features/user/hooks/useAuthenticatedUser';
 
 const UserPage = ({ params }: { params: { username: string } }) => {
-  const { data } = useQuery(getUserDataByUsernameQuery, {
-    variables: {
-      username: params?.username?.trim(),
-    },
-  });
+  // const { data } = useQuery(getUserDataByUsernameQuery, {
+  //   variables: {
+  //     username: params?.username?.trim(),
+  //   },
+  // });
+
+  const { isAuth } = useAuthenticatedUser();
+  console.log(isAuth);
+
+  console.log('username: ', params?.username);
 
   return (
     <div className="min-h-svh pt-14">
       <Container className="h-full mt-10 px-0 grid grid-cols-4 lg:grid-cols-12 gap-8">
-        <div className="col-span-full lg:col-span-3">
+        Hello user
+        {/* todo: revert changes when a new user query is ready */}
+        {/* <div className="col-span-full lg:col-span-3">
           <ProfileCardContainer userId={data?.user?.id} />
         </div>
         <div className="col-span-full lg:col-span-9">
@@ -26,7 +34,7 @@ const UserPage = ({ params }: { params: { username: string } }) => {
         </div>
         <div className="mt-auto col-span-full">
           <Footer />
-        </div>
+        </div> */}
       </Container>
     </div>
   );

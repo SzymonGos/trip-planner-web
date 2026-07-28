@@ -3,3 +3,7 @@ type TCreateUserRequest = {
   email: string;
   username: string;
 };
+
+type TCurrentUserResponse = {
+  id: number;
+};

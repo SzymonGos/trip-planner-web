@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { getTripPlannerUrl } from '@/features/trip/helpers/getTripPlannerUrl';
 
 type TEmptyTripsStateProps = {
-  authUserId: string;
+  authUserId: number;
 };
 
 export const EmptyTripsState: FC<TEmptyTripsStateProps> = ({ authUserId }) => (

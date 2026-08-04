@@ -5,7 +5,7 @@ import { UserTripsList } from './UserTripsList';
 // import { MultipleTripCardsLoader } from '@/features/trip/components/MultipleTripCardsLoader';
 
 type UserTripListContainerProps = {
-  userId: string;
+  userId: number;
   username?: string;
 };
 
@@ -18,7 +18,7 @@ export const UserTripsListContainer = ({ userId }: UserTripListContainerProps) =
 
   return (
     <div className="mt-5 col-span-full lg:col-span-9">
-      <UserTripsList trips={{}} isLoading={false} />
+      <UserTripsList trips={[]} isLoading={false} />
     </div>
   );
 };

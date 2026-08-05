@@ -15,6 +15,9 @@ const nextConfig = {
     domains: [process.env.CLOUDINARY_API_DOMAIN || ''],
   },
   outputFileTracingRoot: '/web',
+  experimental: {
+    globalNotFound: true,
+  },
 };
 
 module.exports = nextConfig;

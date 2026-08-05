@@ -21,11 +21,8 @@ type TUserMenuProps = {
   clerkId?: string;
 };
 
-export const UserMenu: FC<TUserMenuProps> = ({ userName, clerkId }) => {
+export const UserMenu: FC<TUserMenuProps> = ({ userName }) => {
   const { sessionId } = useAuth();
-
-  console.log(clerkId);
-  // get user by clerkId api
 
   return (
     <div>

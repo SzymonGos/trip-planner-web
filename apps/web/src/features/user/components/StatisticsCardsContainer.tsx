@@ -5,38 +5,41 @@ import { StatisticsCard } from './StatisticsCard';
 import { MapPinIcon } from '@/components/Icons/MapPinIcon';
 import { ClockIcon } from '@/components/Icons/ClockIcon';
 import { formatDistance } from '../helpers/formatDistance';
+import type { TripResponse } from '@/features/trip/types/types';
 // import { StatiticsCardLoader } from './StatiticsCardLoader';
 
 type StatisticsCardsContainerProps = {
-  userId: string;
+  userId: number;
+  trips?: TripResponse[];
 };
 
-export const StatisticsCardsContainer = ({ userId }: StatisticsCardsContainerProps) => {
+export const StatisticsCardsContainer = ({ userId, trips }: StatisticsCardsContainerProps) => {
   console.log(userId);
 
   // completed trips api
 
   // if (loading) return <StatiticsCardLoader />;
 
-  const allTrips = [];
+  const allTrips = trips;
   const completedTrips = allTrips.filter((trip) => trip.status === 'completed');
   const totalCompletedTrips = completedTrips.length;
 
-  const totalDistance = completedTrips.reduce((total, trip) => {
-    if (trip.distance) {
-      const distanceMatch = trip.distance.match(/([\d,]+(?:\.\d+)?)/);
-      if (distanceMatch) {
-        const cleanDistance = distanceMatch[1].replace(/,/g, '');
-        return total + parseFloat(cleanDistance);
-      }
-    }
-    return total;
-  }, 0);
+  // todo:
+  // const totalDistance = completedTrips.reduce((total, trip) => {
+  //   if (trip.distance) {
+  //     const distanceMatch = trip.distance.match(/([\d,]+(?:\.\d+)?)/);
+  //     if (distanceMatch) {
+  //       const cleanDistance = distanceMatch[1].replace(/,/g, '');
+  //       return total + parseFloat(cleanDistance);
+  //     }
+  //   }
+  //   return total;
+  // }, 0);
 
   const statisticsCards = [
     {
       title: 'Completed Distance',
-      value: `${formatDistance(totalDistance)} km`,
+      value: `${formatDistance(0)} km`,
       icon: <MapPinIcon className="w-7 h-7 text-tp-primary" />,
     },
     {

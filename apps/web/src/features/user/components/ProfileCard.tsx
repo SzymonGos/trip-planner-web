@@ -1,18 +1,16 @@
-'use client';
-
 import React, { FC } from 'react';
 import { UserProfileImage } from './UserProfileImage';
 import { SettingsIcon } from '@/components/Icons/SettingsIcon';
 import Link from 'next/link';
 
 type ProfileCardProps = {
-   
-  user: any;
+  username: string;
+  profileImage: any;
   isOwnProfile: boolean;
   memberSince: string;
 };
 
-export const ProfileCard: FC<ProfileCardProps> = ({ user, isOwnProfile, memberSince }) => (
+export const ProfileCard: FC<ProfileCardProps> = ({ username, profileImage, isOwnProfile, memberSince }) => (
   <div className="bg-tp-white-100 rounded-lg p-6 border h-fit sticky top-[88px]">
     {isOwnProfile && (
       <Link
@@ -23,11 +21,11 @@ export const ProfileCard: FC<ProfileCardProps> = ({ user, isOwnProfile, memberSi
       </Link>
     )}
     <div className="flex flex-col items-center">
-      <UserProfileImage id={user?.profileImage?.id} />
+      <UserProfileImage id={profileImage?.id} />
 
       <div className="text-center mt-4">
         <div className="flex items-center gap-2">
-          <h3 className="text-[22px] leading-10 font-bold text-tp-gray-300π">{user?.username}</h3>
+          <h3 className="text-[22px] leading-10 font-bold text-tp-gray-300π">{username}</h3>
         </div>
 
         <div className="w-fit px-3 py-1 mt-2 inline-flex self-center rounded-md text-sm font-medium bg-gray-100 text-gray-800">

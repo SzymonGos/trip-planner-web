@@ -1,6 +1,6 @@
-export type TripStatus = 'PLANNED' | 'COMPLETED';
+export type TripStatus = 'planned' | 'completed';
 
-export type Trip = {
+export type TripResponse = {
   id: number;
   title: string;
   description?: string;
@@ -9,5 +9,12 @@ export type Trip = {
   status: TripStatus;
   estimatedDuration?: string;
   createdAt: string;
-  creatorId?: number;
+  creatorId: number;
+  tripImages: TripImagesResponse[];
+};
+
+export type TripImagesResponse = {
+  id: number;
+  url: string;
+  publicId: string;
 };

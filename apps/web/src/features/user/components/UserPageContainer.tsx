@@ -21,7 +21,6 @@ const UserPageContainer: FC<TUserPageContainerProps> = ({ username }) => {
     queryFn: () => getUserByUsernameQuery(username),
   });
 
-  console.log(data);
   const isOwnProfile = authUserId === data?.id;
 
   return (

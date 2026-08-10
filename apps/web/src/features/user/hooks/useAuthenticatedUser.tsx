@@ -2,7 +2,7 @@
 
 import { useAuth } from '@clerk/nextjs';
 import { useQuery } from '@tanstack/react-query';
-import { getCurrentUserId } from '../server/queries/getCurrentUserId';
+import { getCurrentUserQuery } from '../server/queries/getCurrentUserQuery';
 
 export const useAuthenticatedUser = () => {
   const { isLoaded, isSignedIn, getToken } = useAuth();
@@ -16,13 +16,15 @@ export const useAuthenticatedUser = () => {
         throw new Error('Authentication token is missing.');
       }
 
-      return getCurrentUserId(token);
+      return getCurrentUserQuery(token);
     },
   });
 
   const authUserId = data?.id;
 
+  const user = data;
+
   const isAuth = isLoaded && isSignedIn && !!authUserId;
 
-  return { authUserId, isAuth };
+  return { authUserId, isAuth, user };
 };

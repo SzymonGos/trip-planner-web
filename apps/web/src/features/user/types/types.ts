@@ -8,6 +8,9 @@ export type TCreateUserRequest = {
 
 export type TCurrentUserResponse = {
   id: number;
+  username: string;
+  email: string;
+  profileImagePublicId: string;
 };
 
 export type TUserResponse = {
@@ -15,4 +18,10 @@ export type TUserResponse = {
   username: string;
   createdAt: string;
   trips: TripResponse[];
+};
+
+export type TUpdateUserRequest = {
+  id: number;
+  username: string;
+  profileImagePublicId: string;
 };

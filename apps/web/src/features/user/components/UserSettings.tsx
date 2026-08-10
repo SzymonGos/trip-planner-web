@@ -10,12 +10,12 @@ import { userSettingsSchema } from '../helpers/formValidation';
 import { ProfileImageUpload } from './ProfileImageUpload';
 import { Loader2 } from 'lucide-react';
 import { ResetIcon } from '@/components/Icons/ResetIcon';
+import type { TCurrentUserResponse } from '../types/types';
 
 type TFormValuesProps = z.infer<typeof userSettingsSchema>;
 
 type UserSettingsProps = {
-   
-  user?: any;
+  user?: TCurrentUserResponse;
   useFormReturn: UseFormReturn<TFormValuesProps>;
   onSubmit: (e?: React.BaseSyntheticEvent) => Promise<void>;
   isLoading: boolean;
@@ -34,7 +34,7 @@ export const UserSettings = ({
   <Form {...useFormReturn}>
     <form onSubmit={onSubmit} className="space-y-6">
       <div className="flex items-center gap-6 mb-8">
-        <ProfileImageUpload defaultValue={user?.profileImage?.id} onFileChange={onImageChange} />
+        <ProfileImageUpload defaultValue={user?.profileImagePublicId} onFileChange={onImageChange} />
       </div>
       <InputField<TFormValuesProps>
         control={useFormReturn.control}
@@ -49,6 +49,7 @@ export const UserSettings = ({
         label="Email Address"
         placeholder="Enter your email"
         hasError={!!useFormReturn.formState.errors.email}
+        disabled
       />
       <div className="flex gap-4">
         <Button type="submit" disabled={isLoading || !hasChanges}>

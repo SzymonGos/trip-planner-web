@@ -1,7 +1,7 @@
 'use client';
 
-import React from 'react';
-import { useUser } from '@clerk/nextjs';
+import React, { useEffect } from 'react';
+import { useAuth, useUser } from '@clerk/nextjs';
 import { useAuthenticatedUser } from '@/features/user/hooks/useAuthenticatedUser';
 import { UserSettings } from './UserSettings';
 import { useForm } from 'react-hook-form';
@@ -9,20 +9,26 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { userSettingsSchema } from '../helpers/formValidation';
 import { z } from 'zod';
 import { DeleteAccountContainer } from './DeleteAccountContainer';
+import { useMutation } from '@tanstack/react-query';
+import { updateCurrentUserMutation } from '../server/actions/updateCurrentUserMutation';
+import type { TUpdateUserRequest } from '../types/types';
 
 type TFormValuesProps = z.infer<typeof userSettingsSchema> & {
   profileImage?: File;
 };
 
 export const UserSettingsContainer = () => {
-  const { authUserId } = useAuthenticatedUser();
+  const { user } = useAuthenticatedUser();
   const { user: clerkUser } = useUser();
+  const { getToken } = useAuth();
 
-  console.log(authUserId);
+  const { mutate, isPending } = useMutation({
+    mutationFn: async (body: TUpdateUserRequest) => {
+      const token = await getToken();
 
-  // get user api
-
-  // update user api
+      return updateCurrentUserMutation(token, body);
+    },
+  });
 
   const useFormReturn = useForm<TFormValuesProps>({
     resolver: zodResolver(userSettingsSchema),
@@ -32,16 +38,17 @@ export const UserSettingsContainer = () => {
     },
   });
 
-  // useEffect(() => {
-  //   if (data?.user) {
-  //     useFormReturn.reset({
-  //       username: data.user.username || '',
-  //       email: data.user.email || '',
-  //     });
-  //   }
-  // }, [data?.user, useFormReturn]);
+  useEffect(() => {
+    if (user) {
+      useFormReturn.reset({
+        username: user.username || '',
+        email: user.email || '',
+      });
+    }
+  }, [user, useFormReturn]);
 
   const handleOnSubmit = async (data) => {
+    console.log(data);
     try {
       if (data.username && clerkUser) {
         await clerkUser.update({
@@ -52,8 +59,7 @@ export const UserSettingsContainer = () => {
       if (profileImage && !(profileImage instanceof File)) {
         profileImage = undefined;
       }
-
-      // update user
+      mutate(data);
     } catch (e) {
       console.error(e);
     }
@@ -69,10 +75,10 @@ export const UserSettingsContainer = () => {
   return (
     <>
       <UserSettings
-        user={{}}
+        user={user}
         useFormReturn={useFormReturn}
         onSubmit={handleSubmitCallback}
-        isLoading={false}
+        isLoading={isPending}
         hasChanges={hasChanges}
         onImageChange={handleImageChange}
       />

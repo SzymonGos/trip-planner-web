@@ -21,7 +21,10 @@ export type TUserResponse = {
 };
 
 export type TUpdateUserRequest = {
-  id: number;
   username: string;
-  profileImagePublicId: string;
+};
+
+export type TUpdateUserMutation = {
+  body: TUpdateUserRequest;
+  profileImage?: File;
 };

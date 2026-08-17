@@ -12,14 +12,15 @@ type TApiClientOptions = {
 
 export async function apiClient<T>(endpoint: string, options: TApiClientOptions = {}): Promise<T> {
   const { method = 'GET', body, headers, cache, next } = options;
+  const isFormData = body instanceof FormData;
 
   const response = await fetch(`${API_URL}${endpoint}`, {
     method,
     headers: {
-      'Content-Type': 'application/json',
+      ...(!isFormData && { 'Content-Type': 'application/json' }),
       ...headers,
     },
-    body: body ? JSON.stringify(body) : undefined,
+    body: isFormData ? body : JSON.stringify(body),
     cache,
     next,
   });

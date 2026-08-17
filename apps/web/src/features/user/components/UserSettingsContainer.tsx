@@ -11,7 +11,7 @@ import { z } from 'zod';
 import { DeleteAccountContainer } from './DeleteAccountContainer';
 import { useMutation } from '@tanstack/react-query';
 import { updateCurrentUserMutation } from '../server/actions/updateCurrentUserMutation';
-import type { TUpdateUserRequest } from '../types/types';
+import type { TUpdateUserMutation } from '../types/types';
 
 type TFormValuesProps = z.infer<typeof userSettingsSchema> & {
   profileImage?: File;
@@ -22,11 +22,11 @@ export const UserSettingsContainer = () => {
   const { user: clerkUser } = useUser();
   const { getToken } = useAuth();
 
-  const { mutate, isPending } = useMutation({
-    mutationFn: async (body: TUpdateUserRequest) => {
+  const { mutateAsync, isPending } = useMutation({
+    mutationFn: async (data: TUpdateUserMutation) => {
       const token = await getToken();
 
-      return updateCurrentUserMutation(token, body);
+      return updateCurrentUserMutation(token, data.body, data.profileImage);
     },
   });
 
@@ -47,19 +47,23 @@ export const UserSettingsContainer = () => {
     }
   }, [user, useFormReturn]);
 
-  const handleOnSubmit = async (data) => {
-    console.log(data);
+  const handleOnSubmit = async (data: any) => {
     try {
+      let profileImage = data.profileImage;
+      if (profileImage && !(profileImage instanceof File)) {
+        profileImage = undefined;
+      }
+      await mutateAsync({
+        body: {
+          username: data.username,
+        },
+        profileImage,
+      });
       if (data.username && clerkUser) {
         await clerkUser.update({
           username: data.username,
         });
       }
-      let profileImage = data.profileImage;
-      if (profileImage && !(profileImage instanceof File)) {
-        profileImage = undefined;
-      }
-      mutate(data);
     } catch (e) {
       console.error(e);
     }

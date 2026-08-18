@@ -28,7 +28,7 @@ const UserPageContainer: FC<TUserPageContainerProps> = ({ username }) => {
       <Container className="h-full mt-10 px-0 grid grid-cols-4 lg:grid-cols-12 gap-8">
         <div className="col-span-full lg:col-span-3">
           <ProfileCardContainer
-            profileImage={[]}
+            profileImage={data?.profileImagePublicId}
             username={username}
             isOwnProfile={isOwnProfile}
             createdAt={data?.createdAt}

@@ -17,10 +17,10 @@ import { navbarLinks } from './config';
 
 interface NavbarClientProps {
   userName?: string | null;
-  clerkId?: string | null;
+  profileImage?: string;
 }
 
-export const Navbar = ({ userName, clerkId }: NavbarClientProps) => {
+export const Navbar = ({ userName, profileImage }: NavbarClientProps) => {
   const { isLoaded, isSignedIn } = useUser();
   const pathname = usePathname();
   const isTripPages = pathname.startsWith('/trip/');
@@ -58,7 +58,7 @@ export const Navbar = ({ userName, clerkId }: NavbarClientProps) => {
           {isLoaded ? (
             <div data-testid="navbar-user-section" className="md:min-w-[157px] h-[38px]">
               {isSignedIn && userName ? (
-                <UserMenu userName={userName} clerkId={clerkId} />
+                <UserMenu userName={userName} profileImage={profileImage} />
               ) : (
                 <div data-testid="navbar-sign-in" className="flex items-center justify-center md:w-[157px] h-[38px]">
                   <NavbarSignInLink />

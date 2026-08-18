@@ -1,4 +1,4 @@
-import { getCloudinaryImageSrc } from '@/features/user/utils/getCloudinaryImageSrc';
+import { getCloudinaryTripImageSrc } from '@/features/user/utils/getCloudinaryImageSrc';
 import { CldImage } from 'next-cloudinary';
 import Image from 'next/image';
 import React, { FC } from 'react';
@@ -13,7 +13,7 @@ export const TripCardImage: FC<TTripCardImageProps> = ({ id }) => (
   <div className="relative w-full h-[200px] md:h-[250px] overflow-hidden rounded-t-md">
     {id ? (
       <CldImage
-        src={getCloudinaryImageSrc(id)}
+        src={getCloudinaryTripImageSrc(id)}
         alt="Trip main"
         fill
         className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"

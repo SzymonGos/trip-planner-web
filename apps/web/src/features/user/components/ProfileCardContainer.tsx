@@ -9,7 +9,7 @@ type ProfileCardContainerProps = {
   username: string;
   createdAt: string;
   isOwnProfile: boolean;
-  profileImage: any;
+  profileImage: string;
   isLoading: boolean;
 };
 

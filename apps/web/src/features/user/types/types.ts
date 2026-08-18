@@ -17,6 +17,7 @@ export type TUserResponse = {
   id: number;
   username: string;
   createdAt: string;
+  profileImagePublicId: string;
   trips: TripResponse[];
 };
 

@@ -1,4 +1,3 @@
-import { getCloudinaryImageSrc } from '@/features/user/utils/getCloudinaryImageSrc';
 import { cx } from 'class-variance-authority';
 import { CldImage } from 'next-cloudinary';
 import Link from 'next/link';
@@ -25,7 +24,7 @@ export const UserProfileDetails: FC<TUserProfileDetailsProps> = ({
     <Link href={`/user/${username}`} className="cursor-pointer absolute inset-0 w-full h-full z-20" />
     {profileImageId ? (
       <CldImage
-        src={getCloudinaryImageSrc(profileImageId)}
+        src={profileImageId}
         width={100}
         height={100}
         className={cx(imageSize, 'rounded-full object-cover')}

@@ -18,17 +18,17 @@ import { getUserSettingsUrl } from '@/features/user/helpers/getUserSettingsUrl';
 
 type TUserMenuProps = {
   userName: string;
-  clerkId?: string;
+  profileImage: string;
 };
 
-export const UserMenu: FC<TUserMenuProps> = ({ userName }) => {
+export const UserMenu: FC<TUserMenuProps> = ({ userName, profileImage }) => {
   const { sessionId } = useAuth();
 
   return (
     <div>
       <DropdownMenu>
         <DropdownMenuTrigger>
-          <UsernameTrigger userName={userName} profileImageId={''} />
+          <UsernameTrigger userName={userName} profileImageId={profileImage} />
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-48">
           <DropdownMenuItem asChild>

@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
 import { CldImage } from 'next-cloudinary';
-import { getCloudinaryImageSrc } from '@/features/user/utils/getCloudinaryImageSrc';
 
 type TUsernameTriggerProps = {
   userName: string;
@@ -13,7 +12,7 @@ export const UsernameTrigger: FC<TUsernameTriggerProps> = ({ userName, profileIm
 
     {profileImageId ? (
       <CldImage
-        src={getCloudinaryImageSrc(profileImageId)}
+        src={profileImageId}
         alt={userName}
         width={100}
         height={100}

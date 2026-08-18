@@ -3,7 +3,7 @@ import { AddImageButton } from './AddImageButton';
 import Image from 'next/image';
 import { Trash2 } from 'lucide-react';
 import { TTripImageFormValueProps } from '../../hooks/useTripFormSync';
-import { getCloudinaryImageSrc } from '@/features/user/utils/getCloudinaryImageSrc';
+import { getCloudinaryTripImageSrc } from '@/features/user/utils/getCloudinaryImageSrc';
 
 export type TTripImagesUploadProps = {
   className?: string;
@@ -31,7 +31,7 @@ export const TripImagesUpload: FC<TTripImagesUploadProps> = ({
       if (img instanceof File) {
         src = URL.createObjectURL(img);
       } else {
-        src = getCloudinaryImageSrc(img?.image?.id);
+        src = getCloudinaryTripImageSrc(img?.image?.id);
       }
       return (
         <div

@@ -5,7 +5,7 @@ import Link from 'next/link';
 
 type ProfileCardProps = {
   username: string;
-  profileImage: any;
+  profileImage: string;
   isOwnProfile: boolean;
   memberSince: string;
 };
@@ -21,7 +21,7 @@ export const ProfileCard: FC<ProfileCardProps> = ({ username, profileImage, isOw
       </Link>
     )}
     <div className="flex flex-col items-center">
-      <UserProfileImage id={profileImage?.id} />
+      <UserProfileImage id={profileImage} />
 
       <div className="text-center mt-4">
         <div className="flex items-center gap-2">

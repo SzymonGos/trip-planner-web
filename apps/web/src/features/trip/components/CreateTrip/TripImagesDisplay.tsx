@@ -3,7 +3,7 @@
 import React, { FC, useState } from 'react';
 import { CldImage } from 'next-cloudinary';
 import { Trash2 } from 'lucide-react';
-import { getCloudinaryImageSrc } from '@/features/user/utils/getCloudinaryImageSrc';
+import { getCloudinaryTripImageSrc } from '@/features/user/utils/getCloudinaryImageSrc';
 import { useTripImages } from '../../hooks/useTripImages';
 import cx from 'classnames';
 import { TTripImageFormValueProps } from '../../hooks/useTripFormSync';
@@ -48,7 +48,7 @@ export const TripImagesDisplay: FC<TTripImagesDisplayProps> = ({ className, disa
             className="relative w-20 h-20 flex flex-col items-center justify-center border rounded-md overflow-hidden group bg-muted"
           >
             <CldImage
-              src={getCloudinaryImageSrc(img?.image?.id)}
+              src={getCloudinaryTripImageSrc(img?.image?.id)}
               alt={`Trip image ${img?.image?.filename}`}
               width={80}
               height={80}

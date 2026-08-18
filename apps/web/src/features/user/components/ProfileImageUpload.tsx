@@ -1,6 +1,5 @@
 import React, { forwardRef, useState, ChangeEventHandler } from 'react';
 import { CldImage } from 'next-cloudinary';
-import { getCloudinaryImageSrc } from '../utils/getCloudinaryImageSrc';
 import Image from 'next/image';
 
 type TProfileImageUploadProps = {
@@ -42,7 +41,7 @@ export const ProfileImageUpload = forwardRef<HTMLInputElement, TProfileImageUplo
                 />
               ) : (
                 <CldImage
-                  src={getCloudinaryImageSrc(displayImage)}
+                  src={displayImage}
                   width={100}
                   height={100}
                   className="w-full h-full rounded-full object-cover"

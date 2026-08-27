@@ -12,7 +12,6 @@ import { useAuthenticatedUser } from '../../user/hooks/useAuthenticatedUser';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import { customMarkerIcon } from '../utils/customMarkerIcon';
-import { USER_GOOGLE_MAPS_ROUTE_LIMIT } from '@/lib/config';
 
 const mapContainerStyle = {
   height: '100%',
@@ -27,11 +26,18 @@ const defaultCenter: TLocationCoordsProps = {
 type TGoogleMapsProps = {
   canEdit?: boolean;
   shouldCountRoutes?: boolean;
+  canCreateRoute?: boolean;
+  googleMapMaxLimit?: number;
 };
 
-export const GoogleMaps: FC<TGoogleMapsProps> = ({ canEdit = true, shouldCountRoutes = false }) => {
+export const GoogleMaps: FC<TGoogleMapsProps> = ({
+  canEdit = true,
+  shouldCountRoutes = false,
+  canCreateRoute,
+  googleMapMaxLimit,
+}) => {
   const { authUserId } = useAuthenticatedUser();
-  const { incrementRouteCount, canCreateRoute } = useRouteUsage(authUserId);
+  const { incrementRouteCount } = useRouteUsage(authUserId);
   const router = useRouter();
   const [originCoords, setOriginCoords] = useState<TLocationCoordsProps | null>(null);
   const [destinationCoords, setDestinationCoords] = useState<TLocationCoordsProps | null>(null);
@@ -78,7 +84,7 @@ export const GoogleMaps: FC<TGoogleMapsProps> = ({ canEdit = true, shouldCountRo
 
       if (authUserId && shouldCountRoutes && !canCreateRoute) {
         toast.error(
-          `Route limit reached! You've used ${USER_GOOGLE_MAPS_ROUTE_LIMIT} routes this month. Please wait until reset.`,
+          `Route limit reached! You've used ${googleMapMaxLimit} routes this month. Please wait until reset.`,
         );
         return;
       }
@@ -97,7 +103,16 @@ export const GoogleMaps: FC<TGoogleMapsProps> = ({ canEdit = true, shouldCountRo
         }
       });
     },
-    [directionsValue, setDirectionsValue, canEdit, authUserId, shouldCountRoutes, canCreateRoute, router],
+    [
+      directionsValue,
+      setDirectionsValue,
+      canEdit,
+      authUserId,
+      shouldCountRoutes,
+      canCreateRoute,
+      router,
+      googleMapMaxLimit,
+    ],
   );
 
   const directionsCallback = useCallback(

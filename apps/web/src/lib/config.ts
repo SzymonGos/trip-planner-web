@@ -12,7 +12,6 @@ export const OPENAI_API_KEY = process.env.OPENAI_API_KEY || '';
 export const CHAT_API_URL = '/api/chat';
 export const CLERK_PUBLISHABLE_KEY = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY || '';
 
-export const USER_GOOGLE_MAPS_ROUTE_LIMIT = 10;
 export const USER_AI_CHAT_LIMIT = 20;
 
 export const API_URL = process.env.API_URL || 'http://localhost:8080';

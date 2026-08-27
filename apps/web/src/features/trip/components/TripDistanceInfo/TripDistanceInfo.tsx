@@ -7,6 +7,7 @@ type TripDistanceInfoProps = {
   currentRouteCount: number;
   usagePercentage: number;
   resetDate: string;
+  googleMapsMaxLimit: number;
 };
 
 export const TripDistanceInfo: FC<TripDistanceInfoProps> = ({
@@ -15,6 +16,7 @@ export const TripDistanceInfo: FC<TripDistanceInfoProps> = ({
   currentRouteCount,
   usagePercentage,
   resetDate,
+  googleMapsMaxLimit,
 }) => (
   <div className="absolute z-40 p-4 flex items-center top-[86px] w-full bg-tp-white-100 border-b border-tp-gray-100">
     <div className="flex flex-col md:flex-row basis-1/3 gap-2">
@@ -22,6 +24,7 @@ export const TripDistanceInfo: FC<TripDistanceInfoProps> = ({
         currentUsage={currentRouteCount}
         usagePercentage={usagePercentage}
         resetDate={resetDate}
+        googleMapsMaxLimit={googleMapsMaxLimit}
       />
     </div>
     <div className="flex flex-row md:flex-col basis-2/3 gap-2 text-xs md:text-base">

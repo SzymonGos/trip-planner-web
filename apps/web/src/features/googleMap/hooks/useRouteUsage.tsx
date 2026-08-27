@@ -1,15 +1,14 @@
 import { useCallback, useRef } from 'react';
-import { USER_GOOGLE_MAPS_ROUTE_LIMIT } from '@/lib/config';
 
-export const useRouteUsage = (authUserId: string) => {
-  // user roue count api
+export const useRouteUsage = (authUserId: number) => {
+  // user route count api
 
-  // user rout ecount mutation
+  // user route count mutation
 
   const isProcessingRef = useRef(false);
   const completedRoutesRef = useRef<Set<string>>(new Set());
   const currentRouteCount = 0;
-  const usagePercentage = Math.round((currentRouteCount / USER_GOOGLE_MAPS_ROUTE_LIMIT) * 100);
+
   // const resetDate = userData?.user?.googleMapsRouteResetDate;
   const resetDate = '';
 
@@ -43,14 +42,10 @@ export const useRouteUsage = (authUserId: string) => {
     [authUserId, currentRouteCount],
   );
 
-  const canCreateRoute = currentRouteCount < USER_GOOGLE_MAPS_ROUTE_LIMIT;
-
   return {
     currentRouteCount,
-    usagePercentage,
     resetDate,
     incrementRouteCount,
-    canCreateRoute,
     // refetch,
   };
 };

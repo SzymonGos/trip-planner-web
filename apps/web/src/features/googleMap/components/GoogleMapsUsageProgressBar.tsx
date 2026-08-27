@@ -3,23 +3,24 @@ import cx from 'classnames';
 import { formatDate } from '../../trip/helpers/formatDate';
 import { InfoIcon } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
-import { USER_GOOGLE_MAPS_ROUTE_LIMIT } from '@/lib/config';
 
 type TGoogleMapsUsageProgressBarProps = {
   currentUsage: number;
   usagePercentage: number;
   resetDate?: string;
+  googleMapsMaxLimit: number;
 };
 
 export const GoogleMapsUsageProgressBar: FC<TGoogleMapsUsageProgressBarProps> = ({
   currentUsage,
   usagePercentage,
   resetDate,
+  googleMapsMaxLimit,
 }) => (
   <div className="text-xs text-gray-500 flex flex-col items-start">
     <div className="flex items-center gap-2">
       <span className="font-medium">
-        {currentUsage}/{USER_GOOGLE_MAPS_ROUTE_LIMIT} routes
+        {currentUsage}/{googleMapsMaxLimit} routes
       </span>
       <Tooltip>
         <TooltipTrigger asChild>
@@ -28,7 +29,7 @@ export const GoogleMapsUsageProgressBar: FC<TGoogleMapsUsageProgressBarProps> = 
         <TooltipContent>
           <p className="max-w-xs">
             Each time you create a route <span className="font-semibold">(origin → destination)</span>, it counts as 1
-            usage. You have <span className="font-semibold">{USER_GOOGLE_MAPS_ROUTE_LIMIT}</span> free routes per month.
+            usage. You have <span className="font-semibold">{googleMapsMaxLimit}</span> free routes per month.
           </p>
         </TooltipContent>
       </Tooltip>

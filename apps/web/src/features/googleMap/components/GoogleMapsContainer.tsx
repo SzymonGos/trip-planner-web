@@ -38,7 +38,7 @@ export const GoogleMapsContainer = () => {
     },
   });
 
-  const canCreateRoute = data?.googleMapsRouteCount > data?.googleMapsMaxLimit;
+  const canCreateRoute = data?.googleMapsRouteCount < data?.googleMapsMaxLimit;
   const usagePercentage = Math.round((data?.googleMapsRouteCount / data?.googleMapsMaxLimit) * 100);
 
   return (

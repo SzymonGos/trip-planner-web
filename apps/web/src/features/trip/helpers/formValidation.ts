@@ -5,7 +5,7 @@ export const tripSchema = z.object({
   description: z.string().max(350, 'Description is to long').optional(),
   origin: z.string().min(1, 'Origin is required'),
   destination: z.string().min(1, 'Destination is required'),
-  status: z.enum(['planning', 'completed'], {
+  status: z.enum(['PLANNING', 'COMPLETED'], {
     required_error: 'Status is required',
   }),
   images: z

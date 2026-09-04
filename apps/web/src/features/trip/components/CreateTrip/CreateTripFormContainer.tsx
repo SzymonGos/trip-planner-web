@@ -11,17 +11,20 @@ import { tripSchema } from '../../helpers/formValidation';
 import { useRouter } from 'next/navigation';
 import { getTripUrl } from '../../helpers/getTripUrl';
 import { TripFormProvider } from '../../contexts/TripFormProvider';
-import { TTripImageFormValueProps } from '../../hooks/useTripFormSync';
 import { useGoogleMapLoader } from '@/features/googleMap/hooks/useGoogleMapLoader';
 import { TripLoader } from '../TripLoader';
+import { useMutation } from '@tanstack/react-query';
+import type { TCreateTripRequest, TripStatus } from '../../types/types';
+import { useAuth } from '@clerk/nextjs';
+import { createTrip } from '../../server/actions/createTrip';
 
 export type TFormValuesProps = {
   title: string;
   description?: string;
   origin: string;
   destination: string;
-  status: 'planning' | 'completed';
-  images?: (File | TTripImageFormValueProps)[];
+  status: TripStatus;
+  images?: File[];
 } & z.infer<typeof tripSchema>;
 
 export type TAutocompleteProps = google.maps.places.Autocomplete | null;
@@ -33,16 +36,26 @@ export const CreateTripFormContainer = () => {
   const { authUserId } = useAuthenticatedUser();
   const router = useRouter();
   const { isLoaded: isMapLoaded } = useGoogleMapLoader();
+  const { getToken } = useAuth();
 
-  // todo: create trip api
-  console.log(distanceInfo);
+  const { mutateAsync, isPending } = useMutation({
+    mutationFn: async (data: TCreateTripRequest) => {
+      const token = await getToken();
+
+      if (!token) {
+        throw new Error('Authentication token is missing.');
+      }
+
+      return createTrip(token, data);
+    },
+  });
 
   const defaultValues = {
     title: '',
     description: '',
     origin: '',
     destination: '',
-    status: 'planning' as const,
+    status: 'PLANNING' as const,
     images: [],
   };
 
@@ -68,15 +81,10 @@ export const CreateTripFormContainer = () => {
 
   const handleOnSubmit: SubmitHandler<TFormValuesProps> = async (data) => {
     try {
-      const files = (data.images || []).filter((img): img is File => img instanceof File);
-      const tripImages = files.map((file) => ({ image: file }));
-      console.log(tripImages);
-      // create trip
-
-      const tripId = '';
+      mutateAsync(data);
       useFormReturn.reset();
-      handleClearDirections();
-      router?.push(getTripUrl(tripId));
+      // handleClearDirections();
+      // router?.push(getTripUrl(tripId));
     } catch (e) {
       console.error(e.message);
     }
@@ -96,16 +104,16 @@ export const CreateTripFormContainer = () => {
 
   useEffect(() => {
     handleClearDirections();
-  }, []);
+  }, [handleClearDirections]);
 
   useEffect(() => {
     const currentStatus = useFormReturn.watch('status');
     const currentImages = useFormReturn.watch('images');
 
-    if (currentStatus === 'planning' && currentImages && currentImages.length > 0) {
+    if (currentStatus === 'PLANNING' && currentImages && currentImages.length > 0) {
       useFormReturn.setValue('images', []);
     }
-  }, [useFormReturn.watch('status')]);
+  }, [useFormReturn]);
 
   if (!isMapLoaded) return <TripLoader type="edit" />;
 
@@ -127,8 +135,7 @@ export const CreateTripFormContainer = () => {
           setOriginAutocomplete={setOriginAutocomplete}
           setDestinationAutocomplete={setDestinationAutocomplete}
           authUserId={authUserId}
-          // create trip
-          loading={false}
+          loading={isPending}
         />
       </div>
     </TripFormProvider>

@@ -24,7 +24,7 @@ type TCreateTripFormProps = {
   setOriginAutocomplete: (value: TAutocompleteProps) => void;
   setDestinationAutocomplete: (value: TAutocompleteProps) => void;
   isEditing?: boolean;
-  authUserId: string;
+  authUserId: number;
   tripId?: string;
   tripTitle?: string;
   loading?: boolean;
@@ -90,8 +90,8 @@ export const CreateTripForm: FC<TCreateTripFormProps> = ({
             label="Status"
             placeholder="Select status"
             options={[
-              { label: 'Planning', value: 'planning' },
-              { label: 'Completed', value: 'completed' },
+              { label: 'Planning', value: 'PLANNING' },
+              { label: 'Completed', value: 'COMPLETED' },
             ]}
           />
           <div className="mt-2 w-fit">

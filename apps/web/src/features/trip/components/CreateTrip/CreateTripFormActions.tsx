@@ -6,7 +6,7 @@ import { DeleteTripButton } from '../DeleteTripButton';
 import { Loader2 } from 'lucide-react';
 
 type TCreateTripFormActionsProps = {
-  authUserId: string;
+  authUserId: number;
   isSubmitting: boolean;
   isEditing: boolean;
   hasChanges: boolean;

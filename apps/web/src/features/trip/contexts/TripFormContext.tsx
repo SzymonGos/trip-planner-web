@@ -2,6 +2,7 @@
 
 import React, { createContext, useContext, ReactNode } from 'react';
 import { TTripImageFormValueProps } from '../hooks/useTripFormSync';
+import type { TripStatus } from '../types/types';
 
 export type TripFormContextTypeProps = {
   isEditing: boolean;
@@ -11,7 +12,7 @@ export type TripFormContextTypeProps = {
   handleNewImagesChange: (files: File[]) => void;
   handleNewImagesAdd: (files: File[]) => void;
   maxTotalImages: number;
-  formStatus: 'planning' | 'completed';
+  formStatus: TripStatus;
   isSubmitting: boolean;
   hasChanges: boolean;
   handleSubmit: () => void;
@@ -27,7 +28,7 @@ const defaultContextValue: TripFormContextTypeProps = {
   handleNewImagesChange: () => {},
   handleNewImagesAdd: () => {},
   maxTotalImages: 5,
-  formStatus: 'planning',
+  formStatus: 'PLANNING',
   isSubmitting: false,
   hasChanges: false,
   handleSubmit: () => {},

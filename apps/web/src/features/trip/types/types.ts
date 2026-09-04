@@ -1,4 +1,4 @@
-export type TripStatus = 'planned' | 'completed';
+export type TripStatus = 'PLANNING' | 'COMPLETED';
 
 export type TripResponse = {
   id: number;
@@ -15,6 +15,14 @@ export type TripResponse = {
 
 export type TripImagesResponse = {
   id: number;
-  url: string;
   publicId: string;
+};
+
+export type TCreateTripRequest = {
+  title: string;
+  description?: string;
+  origin: string;
+  destination: string;
+  status: TripStatus;
+  images?: File[];
 };

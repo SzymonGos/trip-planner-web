@@ -5,10 +5,11 @@ import { UseFormReturn } from 'react-hook-form';
 import { TripFormContext, TripFormContextTypeProps } from './TripFormContext';
 import { TFormValuesProps } from '../components/CreateTrip/CreateTripFormContainer';
 import { TTripImageFormValueProps } from '../hooks/useTripFormSync';
+import type { TripStatus } from '../types/types';
 
 type TTripFormProviderProps = {
   children: ReactNode;
-  useForm: UseFormReturn<TFormValuesProps>;
+  useForm: UseFormReturn<TFormValuesProps> | any;
   isEditing?: boolean;
   onSubmit: () => void;
   onReset: () => void;
@@ -30,7 +31,7 @@ export const TripFormProvider: React.FC<TTripFormProviderProps> = ({
   const [newImages, setNewImages] = useState<File[]>([]);
 
   const currentImages = useForm.watch('images') || [];
-  const formStatus = useForm.watch('status') as 'planning' | 'completed';
+  const formStatus = useForm.watch('status') as TripStatus;
 
   const existingImages = currentImages.filter((img): img is TTripImageFormValueProps => !(img instanceof File));
 

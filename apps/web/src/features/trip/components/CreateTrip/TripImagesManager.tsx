@@ -1,24 +1,31 @@
 'use client';
 
 import React, { FC } from 'react';
-import { TripImagesDisplay } from './TripImagesDisplay';
-import { useTripImages } from '../../hooks/useTripImages';
+// import { TripImagesDisplay } from './TripImagesDisplay';
 import { TripImagesUploadContainer } from './TripImagesUploadContainer';
-import { useTripFormContext } from '../../contexts/TripFormContext';
-import { TTripImageFormValueProps } from '../../hooks/useTripFormSync';
+import { useFormContext, useWatch } from 'react-hook-form';
+import type { TFormValuesProps } from './CreateTripFormContainer';
+import { MAX_TRIP_IMAGES } from '../../helpers/formValidation';
 
 export type TTripImagesManagerProps = {
   disabled?: boolean;
-  images?: TTripImageFormValueProps[];
 };
 
-export const TripImagesManager: FC<TTripImagesManagerProps> = ({ disabled, images = [] }) => {
-  const { canAddMore } = useTripImages();
-  const { tripId } = useTripFormContext();
+export const TripImagesManager: FC<TTripImagesManagerProps> = ({ disabled }) => {
+  const { control } = useFormContext<TFormValuesProps>();
+
+  const images =
+    useWatch({
+      control,
+      name: 'images',
+    }) ?? [];
+
+  const canAddMore = images.length < MAX_TRIP_IMAGES;
 
   return (
     <div className="flex gap-2 items-center flex-wrap">
-      <TripImagesDisplay images={images} disabled={disabled} tripId={tripId} />
+      {/* todo: edit trip update */}
+      {/* <TripImagesDisplay images={images} disabled={disabled} /> */}
 
       <TripImagesUploadContainer disabled={disabled} canAddMore={canAddMore} />
     </div>

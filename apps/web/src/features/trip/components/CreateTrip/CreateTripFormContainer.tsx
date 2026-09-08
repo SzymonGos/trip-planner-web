@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { SubmitHandler, useForm, useWatch } from 'react-hook-form';
 import { CreateTripForm } from './CreateTripForm';
 import { useGoogleMapsDirections } from '@/lib/contexts/DirectionsContext';
 import { useAuthenticatedUser } from '@/features/user/hooks/useAuthenticatedUser';
@@ -10,7 +10,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { tripSchema } from '../../helpers/formValidation';
 import { useRouter } from 'next/navigation';
 import { getTripUrl } from '../../helpers/getTripUrl';
-import { TripFormProvider } from '../../contexts/TripFormProvider';
 import { useGoogleMapLoader } from '@/features/googleMap/hooks/useGoogleMapLoader';
 import { TripLoader } from '../TripLoader';
 import { useMutation } from '@tanstack/react-query';
@@ -50,19 +49,33 @@ export const CreateTripFormContainer = () => {
     },
   });
 
-  const defaultValues = {
-    title: '',
-    description: '',
-    origin: '',
-    destination: '',
-    status: 'PLANNING' as const,
-    images: [],
-  };
-
-  const useFormReturn = useForm<TFormValuesProps>({
+  const useFormReturn = useForm({
     resolver: zodResolver(tripSchema),
-    defaultValues,
+    defaultValues: {
+      title: '',
+      description: '',
+      origin: '',
+      destination: '',
+      status: 'PLANNING',
+      images: [],
+    },
   });
+
+  const { control, setValue } = useFormReturn;
+
+  const currentStatus = useWatch({
+    control,
+    name: 'status',
+  });
+
+  useEffect(() => {
+    if (currentStatus === 'PLANNING') {
+      setValue('images', [], {
+        shouldDirty: true,
+        shouldValidate: true,
+      });
+    }
+  }, [currentStatus, setValue]);
 
   const handlePlaceSelect = (autocompleteInstance: TAutocompleteProps, fieldName: 'origin' | 'destination') => {
     const place = autocompleteInstance?.getPlace();
@@ -83,7 +96,7 @@ export const CreateTripFormContainer = () => {
     try {
       mutateAsync(data);
       useFormReturn.reset();
-      // handleClearDirections();
+      handleClearDirections();
       // router?.push(getTripUrl(tripId));
     } catch (e) {
       console.error(e.message);
@@ -106,38 +119,25 @@ export const CreateTripFormContainer = () => {
     handleClearDirections();
   }, [handleClearDirections]);
 
-  useEffect(() => {
-    const currentStatus = useFormReturn.watch('status');
-    const currentImages = useFormReturn.watch('images');
-
-    if (currentStatus === 'PLANNING' && currentImages && currentImages.length > 0) {
-      useFormReturn.setValue('images', []);
-    }
-  }, [useFormReturn]);
-
   if (!isMapLoaded) return <TripLoader type="edit" />;
 
   return (
-    <TripFormProvider
-      useForm={useFormReturn}
-      isEditing={false}
-      onSubmit={handleSubmitCallback}
-      onReset={handleClearForm}
-    >
-      <div className="pt-28 pb-10">
-        <h1 className="mb-5 text-3xl font-semibold">Plan your trip</h1>
-        <CreateTripForm
-          useForm={useFormReturn}
-          setDirectionsValue={setDirectionsValue}
-          handlePlaceSelect={handlePlaceSelect}
-          originAutocomplete={originAutocomplete}
-          destinationAutocomplete={destinationAutocomplete}
-          setOriginAutocomplete={setOriginAutocomplete}
-          setDestinationAutocomplete={setDestinationAutocomplete}
-          authUserId={authUserId}
-          loading={isPending}
-        />
-      </div>
-    </TripFormProvider>
+    <div className="pt-28 pb-10">
+      <h1 className="mb-5 text-3xl font-semibold">Plan your trip</h1>
+
+      <CreateTripForm
+        useForm={useFormReturn}
+        setDirectionsValue={setDirectionsValue}
+        handlePlaceSelect={handlePlaceSelect}
+        originAutocomplete={originAutocomplete}
+        destinationAutocomplete={destinationAutocomplete}
+        setOriginAutocomplete={setOriginAutocomplete}
+        setDestinationAutocomplete={setDestinationAutocomplete}
+        authUserId={authUserId}
+        loading={isPending}
+        onSubmit={handleSubmitCallback}
+        onReset={handleClearForm}
+      />
+    </div>
   );
 };

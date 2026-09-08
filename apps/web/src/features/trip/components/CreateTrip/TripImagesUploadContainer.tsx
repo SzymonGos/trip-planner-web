@@ -1,7 +1,11 @@
+'use client';
+
 import React, { useRef, ChangeEvent, FC } from 'react';
 import { TripImagesUpload } from './TripImagesUpload';
-import { useTripImages } from '../../hooks/useTripImages';
 import { TTripImageFormValueProps } from '../../hooks/useTripFormSync';
+import { useFormContext, useWatch } from 'react-hook-form';
+import type { TFormValuesProps } from './CreateTripFormContainer';
+import { MAX_TRIP_IMAGES } from '../../helpers/formValidation';
 
 export type TTripImagesUploadContainerProps = {
   className?: string;
@@ -17,36 +21,51 @@ export const TripImagesUploadContainer: FC<TTripImagesUploadContainerProps> = ({
   canAddMore,
 }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const { newImages, handleExistingImagesRemove, handleNewImagesChange, handleNewImagesAdd } = useTripImages();
 
-  const images = [...defaultImages, ...newImages];
+  const { control, getValues, setValue } = useFormContext<TFormValuesProps>();
+
+  const images =
+    useWatch({
+      control,
+      name: 'images',
+    }) ?? [];
 
   const handleAddImages = () => {
-    if (!disabled) fileInputRef.current?.click();
+    if (disabled || !canAddMore) return;
+
+    fileInputRef.current?.click();
   };
 
-  const handleFilesChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleFilesChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (disabled) return;
-    const files = Array.from(e.target.files || []);
-    handleNewImagesAdd(files);
-    e.target.value = '';
+
+    const selectedFiles = Array.from(event.target.files ?? []);
+
+    const currentImages = getValues('images') ?? [];
+
+    const remainingSlots = MAX_TRIP_IMAGES - currentImages.length;
+
+    const filesToAdd = selectedFiles.slice(0, remainingSlots);
+
+    if (filesToAdd.length > 0) {
+      setValue('images', [...currentImages, ...filesToAdd], {
+        shouldDirty: true,
+        shouldTouch: true,
+        shouldValidate: true,
+      });
+    }
+
+    event.target.value = '';
   };
 
   const handleRemove = (index: number) => {
-    const defaultImagesCount = defaultImages.length;
+    const updatedImages = images.filter((_, imageIndex) => imageIndex !== index);
 
-    if (index < defaultImagesCount) {
-      // Removing an existing image (from defaultImages)
-      const existingImage = defaultImages[index];
-      if (existingImage?.image?.id) {
-        handleExistingImagesRemove(existingImage.image.id);
-      }
-    } else {
-      // Removing a new image (from newImages)
-      const newImageIndex = index - defaultImagesCount;
-      const updatedNewImages = newImages.filter((_, i) => i !== newImageIndex);
-      handleNewImagesChange(updatedNewImages);
-    }
+    setValue('images', updatedImages, {
+      shouldDirty: true,
+      shouldTouch: true,
+      shouldValidate: true,
+    });
   };
 
   return (

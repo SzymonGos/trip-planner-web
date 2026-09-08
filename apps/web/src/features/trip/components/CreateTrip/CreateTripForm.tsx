@@ -1,9 +1,9 @@
 'use client';
 
-import React, { FC } from 'react';
+import React, { FC, type SubmitEventHandler } from 'react';
 import { TAutocompleteProps, TFormValuesProps } from './CreateTripFormContainer';
 import { Form } from '@/components/ui/form';
-import { UseFormReturn } from 'react-hook-form';
+import { UseFormReturn, useWatch } from 'react-hook-form';
 import { InputField } from './InputField';
 import { Autocomplete } from '@react-google-maps/api';
 import { TDirectionsValueProps } from '@/lib/contexts/constants';
@@ -11,12 +11,12 @@ import { TextareaField } from './TextareaField';
 import { SelectField } from './SelectField';
 import { TripImagesManager } from './TripImagesManager';
 import { Tooltip, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip';
-import { useTripFormState } from '../../hooks/useTripFormState';
-import { useTripImages } from '../../hooks/useTripImages';
 import { CreateTripFormActions } from './CreateTripFormActions';
 
 type TCreateTripFormProps = {
   useForm: UseFormReturn<TFormValuesProps>;
+  onSubmit: SubmitEventHandler<HTMLFormElement>;
+  onReset: () => void;
   setDirectionsValue: (value: TDirectionsValueProps) => void;
   handlePlaceSelect: (autocompleteInstance: TAutocompleteProps, fieldName: 'origin' | 'destination') => void;
   originAutocomplete: TAutocompleteProps;
@@ -32,6 +32,8 @@ type TCreateTripFormProps = {
 
 export const CreateTripForm: FC<TCreateTripFormProps> = ({
   useForm,
+  onSubmit,
+  onReset,
   handlePlaceSelect,
   setDestinationAutocomplete,
   setOriginAutocomplete,
@@ -43,12 +45,17 @@ export const CreateTripForm: FC<TCreateTripFormProps> = ({
   tripTitle,
   loading,
 }) => {
-  const { canAddImages, handleSubmit, handleReset, isSubmitting, hasChanges } = useTripFormState();
-  const { existingImages } = useTripImages();
+  const formStatus = useWatch({
+    control: useForm.control,
+    name: 'status',
+  });
+
+  const canAddImages = formStatus === 'COMPLETED';
+  const { isSubmitting, isDirty } = useForm.formState;
 
   return (
     <Form {...useForm}>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={onSubmit}>
         <div className="flex flex-col gap-6">
           <InputField
             control={useForm.control}
@@ -107,7 +114,7 @@ export const CreateTripForm: FC<TCreateTripFormProps> = ({
                 </TooltipContent>
               </Tooltip>
             ) : (
-              <TripImagesManager images={existingImages} />
+              <TripImagesManager />
             )}
           </div>
         </div>
@@ -115,8 +122,8 @@ export const CreateTripForm: FC<TCreateTripFormProps> = ({
           authUserId={authUserId}
           isSubmitting={isSubmitting || loading}
           isEditing={isEditing}
-          hasChanges={hasChanges}
-          handleReset={handleReset}
+          hasChanges={isDirty}
+          handleReset={onReset}
           tripId={tripId}
           tripTitle={tripTitle}
         />

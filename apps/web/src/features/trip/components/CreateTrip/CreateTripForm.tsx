@@ -1,7 +1,7 @@
 'use client';
 
 import React, { FC, type SubmitEventHandler } from 'react';
-import { TAutocompleteProps, TFormValuesProps } from './CreateTripFormContainer';
+import { TAutocompleteProps } from './CreateTripFormContainer';
 import { Form } from '@/components/ui/form';
 import { UseFormReturn, useWatch } from 'react-hook-form';
 import { InputField } from './InputField';
@@ -12,9 +12,10 @@ import { SelectField } from './SelectField';
 import { TripImagesManager } from './TripImagesManager';
 import { Tooltip, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip';
 import { CreateTripFormActions } from './CreateTripFormActions';
+import type { TTripFormValues } from '../../helpers/formValidation';
 
 type TCreateTripFormProps = {
-  useForm: UseFormReturn<TFormValuesProps>;
+  useForm: UseFormReturn<TTripFormValues>;
   onSubmit: SubmitEventHandler<HTMLFormElement>;
   onReset: () => void;
   setDirectionsValue: (value: TDirectionsValueProps) => void;

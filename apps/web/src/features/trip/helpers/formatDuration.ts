@@ -1,15 +1,10 @@
-export const formatDuration = (duration: string | undefined): string => {
-  if (!duration) return '';
+export const formatDuration = (durationSeconds: number): string => {
+  const totalMinutes = Math.round(durationSeconds / 60);
+  const hours = Math.floor(totalMinutes / 60);
+  const minutes = totalMinutes % 60;
 
-  const hoursMatch = duration.match(/(\d+)\s*hours?/i);
-  const minutesMatch = duration.match(/(\d+)\s*mins?/i);
+  if (!hours) return `${minutes} min`;
+  if (!minutes) return `${hours} h`;
 
-  const hours = hoursMatch ? parseInt(hoursMatch[1], 10) : 0;
-  const minutes = minutesMatch ? parseInt(minutesMatch[1], 10) : 0;
-
-  if (hours > 0) {
-    return `${hours}h${minutes > 0 ? ` ${minutes}m` : ''}`;
-  } else {
-    return `${minutes}m`;
-  }
+  return `${hours} h ${minutes} min`;
 };

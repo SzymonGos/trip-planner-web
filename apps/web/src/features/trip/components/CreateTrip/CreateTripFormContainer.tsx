@@ -5,26 +5,16 @@ import { SubmitHandler, useForm, useWatch } from 'react-hook-form';
 import { CreateTripForm } from './CreateTripForm';
 import { useGoogleMapsDirections } from '@/lib/contexts/DirectionsContext';
 import { useAuthenticatedUser } from '@/features/user/hooks/useAuthenticatedUser';
-import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { tripSchema } from '../../helpers/formValidation';
+import { tripSchema, type TTripFormValues } from '../../helpers/formValidation';
 import { useRouter } from 'next/navigation';
 import { getTripUrl } from '../../helpers/getTripUrl';
 import { useGoogleMapLoader } from '@/features/googleMap/hooks/useGoogleMapLoader';
 import { TripLoader } from '../TripLoader';
 import { useMutation } from '@tanstack/react-query';
-import type { TCreateTripRequest, TripStatus } from '../../types/types';
+import type { TCreateTripRequest } from '../../types/types';
 import { useAuth } from '@clerk/nextjs';
 import { createTrip } from '../../server/actions/createTrip';
-
-export type TFormValuesProps = {
-  title: string;
-  description?: string;
-  origin: string;
-  destination: string;
-  status: TripStatus;
-  images?: File[];
-} & z.infer<typeof tripSchema>;
 
 export type TAutocompleteProps = google.maps.places.Autocomplete | null;
 
@@ -37,18 +27,6 @@ export const CreateTripFormContainer = () => {
   const { isLoaded: isMapLoaded } = useGoogleMapLoader();
   const { getToken } = useAuth();
 
-  const { mutateAsync, isPending } = useMutation({
-    mutationFn: async (data: TCreateTripRequest) => {
-      const token = await getToken();
-
-      if (!token) {
-        throw new Error('Authentication token is missing.');
-      }
-
-      return createTrip(token, data);
-    },
-  });
-
   const useFormReturn = useForm({
     resolver: zodResolver(tripSchema),
     defaultValues: {
@@ -56,6 +34,8 @@ export const CreateTripFormContainer = () => {
       description: '',
       origin: '',
       destination: '',
+      distanceMeters: 0,
+      estimatedDurationSeconds: 0,
       status: 'PLANNING',
       images: [],
     },
@@ -66,6 +46,18 @@ export const CreateTripFormContainer = () => {
   const currentStatus = useWatch({
     control,
     name: 'status',
+  });
+
+  const { mutateAsync, isPending } = useMutation({
+    mutationFn: async (data: TCreateTripRequest) => {
+      const token = await getToken();
+
+      if (!token) {
+        throw new Error('Authentication token is missing.');
+      }
+
+      return createTrip(token, data);
+    },
   });
 
   useEffect(() => {
@@ -92,10 +84,16 @@ export const CreateTripFormContainer = () => {
     }
   };
 
-  const handleOnSubmit: SubmitHandler<TFormValuesProps> = async (data) => {
+  const handleOnSubmit: SubmitHandler<TTripFormValues> = async (formData) => {
+    const request: TCreateTripRequest = {
+      ...formData,
+      distanceMeters: distanceInfo.distanceMeters,
+      estimatedDurationSeconds: distanceInfo.estimatedDurationSeconds,
+    };
     try {
-      mutateAsync(data);
+      await mutateAsync(request);
       useFormReturn.reset();
+
       handleClearDirections();
       // router?.push(getTripUrl(tripId));
     } catch (e) {
@@ -124,7 +122,6 @@ export const CreateTripFormContainer = () => {
   return (
     <div className="pt-28 pb-10">
       <h1 className="mb-5 text-3xl font-semibold">Plan your trip</h1>
-
       <CreateTripForm
         useForm={useFormReturn}
         setDirectionsValue={setDirectionsValue}

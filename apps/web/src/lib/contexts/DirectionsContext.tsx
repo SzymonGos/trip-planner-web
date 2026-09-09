@@ -5,8 +5,8 @@ import { initialDirections, TDirectionsValueProps } from './constants';
 import { useGoogleMapLoader } from '@/features/googleMap/hooks/useGoogleMapLoader';
 
 export type TDistanceMatrixResult = {
-  distance: string;
-  duration: string;
+  distanceMeters: number;
+  estimatedDurationSeconds: number;
 };
 
 type TDirectionsContextProps = {
@@ -16,7 +16,7 @@ type TDirectionsContextProps = {
   directionsResult: google.maps.DirectionsResult | null;
   setDirectionsResult: (result: google.maps.DirectionsResult | null) => void;
   directionsRendererRef: RefObject<google.maps.DirectionsRenderer | null>;
-  distanceInfo: TDistanceMatrixResult | null;
+  distanceInfo: TDistanceMatrixResult;
   getDistance: (origin: string, destination: string) => Promise<TDistanceMatrixResult | null>;
 };
 
@@ -45,8 +45,8 @@ export const DirectionsProvider = ({ children }) => {
         if (response.rows[0]?.elements[0]?.status === 'OK') {
           const element = response.rows[0].elements[0];
           const result = {
-            distance: element.distance.text,
-            duration: element.duration.text,
+            distanceMeters: element.distance.value,
+            estimatedDurationSeconds: element.duration.value,
           };
           setDistanceInfo(result);
           return result;

@@ -45,8 +45,8 @@ export const GoogleMapsContainer = () => {
     <>
       {authUserId && (isTripPlannerPage || isEditTripPlannerPage) && (
         <TripDistanceInfo
-          distance={distanceInfo?.distance}
-          duration={distanceInfo?.duration}
+          distanceMeters={distanceInfo?.distanceMeters}
+          estimatedDurationSeconds={distanceInfo?.estimatedDurationSeconds}
           currentRouteCount={data?.googleMapsRouteCount}
           usagePercentage={usagePercentage}
           googleMapsMaxLimit={data?.googleMapsMaxLimit}

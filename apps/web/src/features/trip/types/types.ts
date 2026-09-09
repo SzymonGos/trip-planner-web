@@ -1,3 +1,5 @@
+import type { TTripFormValues } from '../helpers/formValidation';
+
 export type TripStatus = 'PLANNING' | 'COMPLETED';
 
 export type TripResponse = {
@@ -18,11 +20,15 @@ export type TripImagesResponse = {
   publicId: string;
 };
 
-export type TCreateTripRequest = {
-  title: string;
-  description?: string;
-  origin: string;
-  destination: string;
-  status: TripStatus;
-  images?: File[];
-};
+export type TCreateTripRequest = TTripFormValues;
+
+// export type TCreateTripRequest = {
+//   title: string;
+//   description?: string;
+//   origin: string;
+//   destination: string;
+//   distanceMeters: number;
+//   estimatedDurationSeconds: number;
+//   status: TripStatus;
+//   images?: File[];
+// };

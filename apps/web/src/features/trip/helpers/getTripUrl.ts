@@ -1,1 +1,1 @@
-export const getTripUrl = (id: string) => `/trip/${id}`;
+export const getTripUrl = (id: number) => `/trip/${id}`;

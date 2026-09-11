@@ -5,10 +5,11 @@ import { formatDuration } from '@/features/trip/helpers/formatDuration';
 import { CalendarIcon } from '@/components/Icons/CalendarIcon';
 import { ClockIcon } from '@/components/Icons/ClockIcon';
 import { MapPinIcon } from '@/components/Icons/MapPinIcon';
+import { formatDistance } from '../helpers/formatDistance';
 
 type TTripStatsProps = {
-  distance: string;
-  estimatedDuration: string;
+  distance: number;
+  estimatedDuration: number;
   createdAt: string;
   iconSize?: string;
   className?: string;
@@ -24,14 +25,12 @@ export const TripStats: FC<TTripStatsProps> = ({
   <div className={cx('flex items-center text-xs text-gray-700 gap-4 font-semibold', className)}>
     <span className="flex items-center gap-1">
       <MapPinIcon className={iconSize} />
-      {distance}
+      {formatDistance(distance)}
     </span>
-
     <span className="flex items-center gap-1">
       <ClockIcon className={iconSize} />
       {formatDuration(estimatedDuration)}
     </span>
-
     <span className="flex items-center gap-1">
       <CalendarIcon className={iconSize} />
       {formatDate(createdAt)}

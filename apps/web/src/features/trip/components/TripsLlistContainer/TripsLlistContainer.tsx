@@ -1,36 +1,16 @@
+import React from 'react';
 import { Container } from '@/components/Container/Container';
-import React, { Suspense } from 'react';
 import { TripsList } from './TripsList';
-import { MultipleTripCardsLoader } from '../MultipleTripCardsLoader';
+import { getTrips } from '../../server/queries/getTrips';
 
-export const TripsLlistContainer = () => (
-  <Container className="mt-40">
-    <div className="mb-8">
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-        <div>
-          <h1 className="text-4xl font-bold mb-2">Browse All Trips</h1>
-          <p className="text-gray-600 text-lg">Discover amazing routes shared by our community</p>
-        </div>
+export const TripsLlistContainer = async () => {
+  const data = await getTrips();
+
+  return (
+    <Container>
+      <div className="mt-10 w-full grid gap-5 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <TripsList trips={data} />
       </div>
-    </div>
-
-    {/* <PreloadQuery<{ trips: Trip[] }, { id: string }>
-      query={getTripsQuery}
-      context={{
-        fetchOptions: {
-          next: {
-            revalidate: 60,
-          },
-        },
-      }}
-    > */}
-    {/* {(queryRef) => (
-      <Suspense fallback={<MultipleTripCardsLoader count={6} />}> */}
-    <div className="mt-10 w-full grid gap-5 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-      <TripsList queryRef={{}} />
-    </div>
-    {/* </Suspense>
-    )} */}
-    {/* </PreloadQuery> */}
-  </Container>
-);
+    </Container>
+  );
+};

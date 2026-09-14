@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { FullScreenGallery } from './FullScreenGallery';
+import type { TripImagesResponse } from '../trip/types/types';
 
 type TFullScreenGalleryContainerProps = {
-   
-  images: any;
+  images: TripImagesResponse[];
   initialIndex: number;
   isOpen: boolean;
   onClose: () => void;
@@ -45,7 +45,7 @@ export const FullScreenGalleryContainer = ({
 
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen, currentIndex, onClose]);
+  });
 
   const goToPrevious = () => {
     setCurrentIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
@@ -56,8 +56,8 @@ export const FullScreenGalleryContainer = ({
   };
 
   const currentImage = images[currentIndex];
-  const imageId = currentImage?.image?.id;
-  const fullScreenSrc = imageId ? `tp-keystone/${imageId}` : '';
+  const imageId = currentImage?.publicId;
+  const fullScreenSrc = imageId ? `${imageId}` : '';
 
   return (
     <FullScreenGallery

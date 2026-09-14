@@ -9,10 +9,10 @@ import { TripStatus } from '../TripStatus';
 import { SettingsLink } from '../SettingsLink';
 import { TripTimeline } from './TripTimeline';
 import { ReadMoreButton } from '../ReadMoreButton';
+import type { TripResponse } from '../../types/types';
 
 export type TViewTripProps = {
-   
-  trip: any;
+  trip: TripResponse;
   isOwner: boolean;
   expanded: boolean;
   setExpanded: (expanded: boolean) => void;
@@ -24,8 +24,8 @@ export const ViewTrip: FC<TViewTripProps> = ({ trip, isOwner, expanded, setExpan
       <h1 className="text-[22px] font-semibold mb-2 font-primary">{trip?.title}</h1>
       <div className="my-5 flex flex-col @md:flex-row @md:items-center gap-4 @md:gap-2 justify-between">
         <TripStats
-          distance={trip?.distance}
-          estimatedDuration={trip?.estimatedDuration}
+          distance={trip?.distanceMeters}
+          estimatedDuration={trip?.estimatedDurationSeconds}
           createdAt={trip?.createdAt}
           iconSize="w-5 h-5"
           className="order-2 @md:order-1 text-xs @md:text-sm"
@@ -38,7 +38,7 @@ export const ViewTrip: FC<TViewTripProps> = ({ trip, isOwner, expanded, setExpan
       <div className="w-fit">
         <UserProfileDetails
           username={trip?.creator?.username}
-          profileImageId={trip?.creator?.profileImage?.id}
+          profileImageId={trip?.creator?.profileImagePublicId}
           className="mb-1"
           imageSize="w-[40px] h-[40px]"
           textSize="text-base"

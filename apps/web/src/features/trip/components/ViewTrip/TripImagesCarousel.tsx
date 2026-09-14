@@ -3,9 +3,10 @@ import { CldImage } from 'next-cloudinary';
 import { ArrowButton } from './ArrowButton';
 import { EmblaViewportRefType } from 'embla-carousel-react';
 import { getCloudinaryTripImageSrc } from '@/features/user/utils/getCloudinaryImageSrc';
+import type { TripImagesResponse } from '../../types/types';
 
 interface TripImagesCarouselProps {
-  images: any;
+  images: TripImagesResponse[];
   emblaRef: EmblaViewportRefType;
   scrollPrev: () => void;
   scrollNext: () => void;
@@ -24,7 +25,7 @@ export const TripImagesCarousel: FC<TripImagesCarouselProps> = ({
       <div className="overflow-hidden" ref={emblaRef}>
         <div className="flex h-[200px]">
           {images.map((img, index) => {
-            const src = getCloudinaryTripImageSrc(img?.image?.id);
+            const src = getCloudinaryTripImageSrc(img?.publicId);
             return (
               <div
                 className="flex-shrink-0 h-[200px] w-1/2 relative mr-2 cursor-pointer hover:opacity-90 transition-opacity"

@@ -4,21 +4,10 @@ import { ViewTripContainer } from '@/features/trip/components/ViewTrip/ViewTripC
 
 export const revalidate = 60;
 
-const TripPage = ({ params }: { params: { id: string } }) => (
-  // <PreloadQuery<{ trip: TTrip }, { id: string }>
-  //   query={getTripQuery}
-  //   variables={{
-  //     id: params.id,
-  //   }}
-  // >
-  //   {(queryRef) => (
-  // <Suspense fallback={<TripLoader type="view" />}>
+const TripPage = ({ params }: { params: { id: number } }) => (
   <div className="h-screen">
-    <ViewTripContainer queryRef={{}} />
+    <ViewTripContainer id={params?.id} />
   </div>
-  // </Suspense>
-  //   )}
-  // </PreloadQuery>
 );
 
 export default TripPage;

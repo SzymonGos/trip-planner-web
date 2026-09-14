@@ -1,1 +1,1 @@
-export const getTripPlannerEditUrl = (id: string) => `/trip/planner/edit/${id}`;
+export const getTripPlannerEditUrl = (id: number) => `/trip/planner/edit/${id}`;

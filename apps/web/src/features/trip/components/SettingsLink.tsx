@@ -4,7 +4,7 @@ import { getTripPlannerEditUrl } from '../helpers/getTripPlannerEditUrl';
 import { FC } from 'react';
 
 type TSettingsLinkProps = {
-  tripId: string;
+  tripId: number;
 };
 
 export const SettingsLink: FC<TSettingsLinkProps> = ({ tripId }) => (

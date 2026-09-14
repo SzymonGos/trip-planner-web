@@ -1,10 +1,10 @@
 import React from 'react';
 import { Container } from '@/components/Container/Container';
 import { TripsList } from './TripsList';
-import { getTrips } from '../../server/queries/getTrips';
+import { getTripsQuery } from '../../server/queries/getTripsQuery';
 
 export const TripsLlistContainer = async () => {
-  const data = await getTrips();
+  const data = await getTripsQuery();
 
   return (
     <Container>

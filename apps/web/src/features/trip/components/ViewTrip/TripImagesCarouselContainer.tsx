@@ -4,10 +4,10 @@ import { TripImagesCarousel } from './TripImagesCarousel';
 import { isEmpty } from 'lodash';
 import { FullScreenGalleryContainer } from '@/features/gallery/FullScreenGalleryContainer';
 import Autoplay from 'embla-carousel-autoplay';
+import type { TripImagesResponse } from '../../types/types';
 
 interface TripImagesCarouselContainerProps {
-   
-  images: any;
+  images: TripImagesResponse[];
 }
 
 export const TripImagesCarouselContainer: FC<TripImagesCarouselContainerProps> = ({ images }) => {

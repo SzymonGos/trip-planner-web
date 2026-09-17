@@ -6,7 +6,7 @@ import { getTripUrl } from '../../helpers/getTripUrl';
 import { getTripsUrl } from '../../helpers/getTripsUrl';
 import { getHomePageUrl } from '../../helpers/getHomePageUrl';
 
-export async function revalidateTripPages(tripId: string) {
+export async function revalidateTripPages(tripId: number) {
   revalidatePath(getTripUrl(tripId));
   revalidatePath(getTripPlannerEditUrl(tripId));
   revalidatePath(getTripsUrl());

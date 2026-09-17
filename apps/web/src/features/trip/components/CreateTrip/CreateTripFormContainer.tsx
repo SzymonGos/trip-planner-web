@@ -27,7 +27,7 @@ export const CreateTripFormContainer = () => {
   const { isLoaded: isMapLoaded } = useGoogleMapLoader();
   const { getToken } = useAuth();
 
-  const useFormReturn = useForm({
+  const useFormReturn = useForm<TTripFormValues>({
     resolver: zodResolver(tripSchema),
     defaultValues: {
       title: '',

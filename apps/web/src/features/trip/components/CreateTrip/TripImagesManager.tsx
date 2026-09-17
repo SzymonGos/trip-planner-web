@@ -1,18 +1,19 @@
 'use client';
 
 import React, { FC } from 'react';
-// import { TripImagesDisplay } from './TripImagesDisplay';
 import { TripImagesUploadContainer } from './TripImagesUploadContainer';
 import { useFormContext, useWatch } from 'react-hook-form';
-import type { TFormValuesProps } from './CreateTripFormContainer';
-import { MAX_TRIP_IMAGES } from '../../helpers/formValidation';
+import { MAX_TRIP_IMAGES, type TTripFormValues } from '../../helpers/formValidation';
+import { TripImagesDisplay } from './TripImagesDisplay';
+import type { TripImagesResponse } from '../../types/types';
 
 export type TTripImagesManagerProps = {
   disabled?: boolean;
+  existingImages?: TripImagesResponse[];
 };
 
-export const TripImagesManager: FC<TTripImagesManagerProps> = ({ disabled }) => {
-  const { control } = useFormContext<TFormValuesProps>();
+export const TripImagesManager: FC<TTripImagesManagerProps> = ({ disabled, existingImages = [] }) => {
+  const { control } = useFormContext<TTripFormValues>();
 
   const images =
     useWatch({
@@ -20,14 +21,13 @@ export const TripImagesManager: FC<TTripImagesManagerProps> = ({ disabled }) => 
       name: 'images',
     }) ?? [];
 
-  const canAddMore = images.length < MAX_TRIP_IMAGES;
+  const canAddMoreImages = images.length + existingImages.length < MAX_TRIP_IMAGES;
 
   return (
     <div className="flex gap-2 items-center flex-wrap">
-      {/* todo: edit trip update */}
-      {/* <TripImagesDisplay images={images} disabled={disabled} /> */}
+      <TripImagesDisplay images={existingImages} disabled={disabled} />
 
-      <TripImagesUploadContainer disabled={disabled} canAddMore={canAddMore} />
+      <TripImagesUploadContainer disabled={disabled} canAddMoreImages={canAddMoreImages} />
     </div>
   );
 };

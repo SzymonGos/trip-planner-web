@@ -16,7 +16,7 @@ import {
 import { getTripsUrl } from '../helpers/getTripsUrl';
 
 type TDeleteTripButtonProps = {
-  tripId: string;
+  tripId: number;
   tripTitle: string;
 };
 

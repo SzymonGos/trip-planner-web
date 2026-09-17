@@ -28,3 +28,18 @@ export type TripImagesResponse = {
 };
 
 export type TCreateTripRequest = TTripFormValues;
+
+export type TUpdateTripRequest = {
+  title: string;
+  description?: string;
+  origin: string;
+  destination: string;
+  distanceMeters: number;
+  estimatedDurationSeconds: number;
+  status: 'PLANNING' | 'COMPLETED';
+};
+
+export type TUpdateTripMutation = {
+  body: TUpdateTripRequest;
+  images: File[];
+};

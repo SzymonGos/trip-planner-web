@@ -17,7 +17,7 @@ export const updateCurrentUserMutation = async (token: string, body: TUpdateUser
   }
 
   return apiClient<TUpdateUserRequest>(USER_ENDPOINTS.me, {
-    method: 'PATCH',
+    method: 'PUT',
     headers: {
       Authorization: `Bearer ${token}`,
     },

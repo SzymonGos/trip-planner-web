@@ -4,25 +4,23 @@ import React, { useRef, ChangeEvent, FC } from 'react';
 import { TripImagesUpload } from './TripImagesUpload';
 import { TTripImageFormValueProps } from '../../hooks/useTripFormSync';
 import { useFormContext, useWatch } from 'react-hook-form';
-import type { TFormValuesProps } from './CreateTripFormContainer';
-import { MAX_TRIP_IMAGES } from '../../helpers/formValidation';
+import { MAX_TRIP_IMAGES, type TTripFormValues } from '../../helpers/formValidation';
 
 export type TTripImagesUploadContainerProps = {
   className?: string;
   disabled?: boolean;
   defaultImages?: TTripImageFormValueProps[];
-  canAddMore?: boolean;
+  canAddMoreImages?: boolean;
 };
 
 export const TripImagesUploadContainer: FC<TTripImagesUploadContainerProps> = ({
   className,
   disabled,
-  defaultImages = [],
-  canAddMore,
+  canAddMoreImages,
 }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const { control, getValues, setValue } = useFormContext<TFormValuesProps>();
+  const { control, getValues, setValue } = useFormContext<TTripFormValues>();
 
   const images =
     useWatch({
@@ -31,7 +29,7 @@ export const TripImagesUploadContainer: FC<TTripImagesUploadContainerProps> = ({
     }) ?? [];
 
   const handleAddImages = () => {
-    if (disabled || !canAddMore) return;
+    if (disabled || !canAddMoreImages) return;
 
     fileInputRef.current?.click();
   };
@@ -77,7 +75,7 @@ export const TripImagesUploadContainer: FC<TTripImagesUploadContainerProps> = ({
       onAddImages={handleAddImages}
       onFilesChange={handleFilesChange}
       onRemove={handleRemove}
-      canAddMore={canAddMore}
+      canAddMoreImages={canAddMoreImages}
     />
   );
 };

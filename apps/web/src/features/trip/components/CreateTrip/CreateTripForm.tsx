@@ -13,6 +13,7 @@ import { TripImagesManager } from './TripImagesManager';
 import { Tooltip, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip';
 import { CreateTripFormActions } from './CreateTripFormActions';
 import type { TTripFormValues } from '../../helpers/formValidation';
+import type { TripImagesResponse } from '../../types/types';
 
 type TCreateTripFormProps = {
   useForm: UseFormReturn<TTripFormValues>;
@@ -26,9 +27,10 @@ type TCreateTripFormProps = {
   setDestinationAutocomplete: (value: TAutocompleteProps) => void;
   isEditing?: boolean;
   authUserId: number;
-  tripId?: string;
+  tripId?: number;
   tripTitle?: string;
   loading?: boolean;
+  existingImages?: TripImagesResponse[];
 };
 
 export const CreateTripForm: FC<TCreateTripFormProps> = ({
@@ -45,6 +47,7 @@ export const CreateTripForm: FC<TCreateTripFormProps> = ({
   tripId,
   tripTitle,
   loading,
+  existingImages,
 }) => {
   const formStatus = useWatch({
     control: useForm.control,
@@ -107,7 +110,7 @@ export const CreateTripForm: FC<TCreateTripFormProps> = ({
               <Tooltip>
                 <TooltipTrigger asChild>
                   <div>
-                    <TripImagesManager disabled />
+                    <TripImagesManager disabled existingImages={existingImages} />
                   </div>
                 </TooltipTrigger>
                 <TooltipContent side="right" sideOffset={8}>
@@ -115,7 +118,7 @@ export const CreateTripForm: FC<TCreateTripFormProps> = ({
                 </TooltipContent>
               </Tooltip>
             ) : (
-              <TripImagesManager />
+              <TripImagesManager existingImages={existingImages} />
             )}
           </div>
         </div>

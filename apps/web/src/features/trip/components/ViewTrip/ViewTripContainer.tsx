@@ -6,6 +6,7 @@ import { useAuthenticatedUser } from '@/features/user/hooks/useAuthenticatedUser
 import { useGoogleMapsDirections } from '@/lib/contexts/DirectionsContext';
 import { useQuery } from '@tanstack/react-query';
 import { getTripByIdQuery } from '../../server/queries/getTripByIdQuery';
+import { TripLoader } from '../TripLoader';
 
 type TViewTripContainerProps = {
   id: number;
@@ -16,8 +17,8 @@ export const ViewTripContainer: FC<TViewTripContainerProps> = ({ id }) => {
   const { authUserId } = useAuthenticatedUser();
   const [expanded, setExpanded] = useState(false);
 
-  const { data: trip } = useQuery({
-    queryKey: ['trip'],
+  const { data: trip, isPending } = useQuery({
+    queryKey: ['trip', id],
     queryFn: () => getTripByIdQuery(id),
   });
 
@@ -31,6 +32,8 @@ export const ViewTripContainer: FC<TViewTripContainerProps> = ({ id }) => {
       });
     }
   }, [trip, setDirectionsValue]);
+
+  if (isPending) return <TripLoader type="view" />;
 
   return <ViewTrip trip={trip} isOwner={isOwner} expanded={expanded} setExpanded={setExpanded} />;
 };

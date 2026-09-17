@@ -11,7 +11,7 @@ type TCreateTripFormActionsProps = {
   isEditing: boolean;
   hasChanges: boolean;
   handleReset: () => void;
-  tripId?: string;
+  tripId?: number;
   tripTitle?: string;
 };
 export const CreateTripFormActions: FC<TCreateTripFormActionsProps> = ({
@@ -46,6 +46,6 @@ export const CreateTripFormActions: FC<TCreateTripFormActionsProps> = ({
         )}
       </>
     )}
-    {isEditing && <DeleteTripButton tripId={tripId} tripTitle={tripTitle} />}
+    {/* {isEditing && <DeleteTripButton tripId={tripId} tripTitle={tripTitle} />} */}
   </div>
 );

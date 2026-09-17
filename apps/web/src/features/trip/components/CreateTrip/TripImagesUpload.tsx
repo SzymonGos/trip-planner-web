@@ -2,18 +2,16 @@ import React, { FC, RefObject, ChangeEvent } from 'react';
 import { AddImageButton } from './AddImageButton';
 import Image from 'next/image';
 import { Trash2 } from 'lucide-react';
-import { TTripImageFormValueProps } from '../../hooks/useTripFormSync';
-import { getCloudinaryTripImageSrc } from '@/features/user/utils/getCloudinaryImageSrc';
 
 export type TTripImagesUploadProps = {
   className?: string;
   disabled?: boolean;
   fileInputRef: RefObject<HTMLInputElement>;
-  images: (File | TTripImageFormValueProps)[];
+  images: File[];
   onAddImages: () => void;
   onFilesChange: (e: ChangeEvent<HTMLInputElement>) => void;
   onRemove: (index: number) => void;
-  canAddMore?: boolean;
+  canAddMoreImages?: boolean;
 };
 
 export const TripImagesUpload: FC<TTripImagesUploadProps> = ({
@@ -23,16 +21,13 @@ export const TripImagesUpload: FC<TTripImagesUploadProps> = ({
   onAddImages,
   onFilesChange,
   onRemove,
-  canAddMore,
+  canAddMoreImages,
 }) => (
   <div className="flex gap-2 items-center flex-wrap">
-    {images.map((img, idx) => {
+    {images?.map((img, idx) => {
       let src = '';
-      if (img instanceof File) {
-        src = URL.createObjectURL(img);
-      } else {
-        src = getCloudinaryTripImageSrc(img?.image?.id);
-      }
+      src = URL?.createObjectURL(img);
+
       return (
         <div
           key={idx}
@@ -50,7 +45,7 @@ export const TripImagesUpload: FC<TTripImagesUploadProps> = ({
         </div>
       );
     })}
-    <AddImageButton onClick={onAddImages} disabled={disabled} hidden={!canAddMore} />
+    <AddImageButton onClick={onAddImages} disabled={disabled} hidden={!canAddMoreImages} />
     <input
       ref={fileInputRef}
       type="file"

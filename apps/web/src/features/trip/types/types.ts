@@ -37,6 +37,7 @@ export type TUpdateTripRequest = {
   distanceMeters: number;
   estimatedDurationSeconds: number;
   status: 'PLANNING' | 'COMPLETED';
+  removedImageIds: number[];
 };
 
 export type TUpdateTripMutation = {

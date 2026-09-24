@@ -1,9 +1,12 @@
 import { ViewTripContainer } from '@/features/trip/components/ViewTrip/ViewTripContainer';
 
-const TripPage = ({ params }: { params: { id: number } }) => (
-  <div className="h-screen">
-    <ViewTripContainer id={params?.id} />
-  </div>
-);
+const TripPage = async ({ params }: { params: { id: number } }) => {
+  const { id } = await params;
 
+  return (
+    <div className="h-screen">
+      <ViewTripContainer id={id} />
+    </div>
+  );
+};
 export default TripPage;

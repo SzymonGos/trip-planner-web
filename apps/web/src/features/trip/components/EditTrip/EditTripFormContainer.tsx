@@ -15,11 +15,12 @@ import { Breadcrumb } from '@/features/breadcrumb/Breadcrumb';
 import { useAuthenticatedUser } from '@/features/user/hooks/useAuthenticatedUser';
 import { useGoogleMapLoader } from '@/features/googleMap/hooks/useGoogleMapLoader';
 import { TripLoader } from '../TripLoader';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { getTripByIdQuery } from '../../server/queries/getTripByIdQuery';
 import { updateTrip } from '../../server/actions/updateTrip';
 import { useAuth } from '@clerk/nextjs';
 import type { TripResponse, TUpdateTripMutation } from '../../types/types';
+import { useRouter } from 'next/navigation';
 
 type TEditTripFormContainerProps = {
   id: number;
@@ -28,11 +29,14 @@ type TEditTripFormContainerProps = {
 export const EditTripFormContainer: FC<TEditTripFormContainerProps> = ({ id }) => {
   const [originAutocomplete, setOriginAutocomplete] = useState<TAutocompleteProps>(null);
   const [destinationAutocomplete, setDestinationAutocomplete] = useState<TAutocompleteProps>(null);
+  const [removedImageIds, setRemovedImageIds] = useState<number[]>([]);
   const { directionsValue, setDirectionsValue, handleClearDirections, distanceInfo, getDistance } =
     useGoogleMapsDirections();
   const { authUserId } = useAuthenticatedUser();
   const { isLoaded } = useGoogleMapLoader();
   const { getToken } = useAuth();
+  const router = useRouter();
+  const queryClient = useQueryClient();
 
   const { data: trip } = useQuery({
     queryKey: ['trip', id],
@@ -96,16 +100,27 @@ export const EditTripFormContainer: FC<TEditTripFormContainerProps> = ({ id }) =
     }
   };
 
+  const visibleExistingImages = trip?.tripImages?.filter((image) => !removedImageIds.includes(image.id)) ?? [];
+
+  const handleExistingImageRemove = (imageId: number) => {
+    setRemovedImageIds((currentIds) => (currentIds.includes(imageId) ? currentIds : [...currentIds, imageId]));
+  };
+
   const handleOnSubmit: SubmitHandler<TTripFormValues> = async (data) => {
     try {
-      const { images, ...body } = data;
-      await mutateAsync({
-        body,
+      const { images, ...tripData } = data;
+      const updatedTrip = await mutateAsync({
+        body: {
+          ...tripData,
+          removedImageIds,
+        },
         images,
       });
+      queryClient.setQueryData(['trip', id], updatedTrip);
       await revalidateTripPages(trip?.id);
       useFormReturn.reset(data);
       toast.success(`Trip "${data?.title.trim().slice(0, 15)}..." updated successfully!`);
+      router.push(getTripUrl(id));
     } catch (e) {
       toast.error('Failed to update trip. Please try again.');
       console.error(e.message);
@@ -159,6 +174,8 @@ export const EditTripFormContainer: FC<TEditTripFormContainerProps> = ({ id }) =
           onReset={handleClearDirections}
           setDirectionsValue={setDirectionsValue}
           handlePlaceSelect={handlePlaceSelect}
+          onExistingImageRemove={handleExistingImageRemove}
+          hasPendingImageChanges={removedImageIds.length > 0}
           originAutocomplete={originAutocomplete}
           destinationAutocomplete={destinationAutocomplete}
           setOriginAutocomplete={setOriginAutocomplete}
@@ -167,7 +184,7 @@ export const EditTripFormContainer: FC<TEditTripFormContainerProps> = ({ id }) =
           authUserId={authUserId}
           tripId={trip?.id}
           tripTitle={trip?.title}
-          existingImages={trip?.tripImages}
+          existingImages={visibleExistingImages}
         />
       </div>
     </div>

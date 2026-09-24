@@ -1,5 +1,5 @@
 import { apiClient } from '@/lib/api/apiClient';
-import type { TripResponse, TUpdateTripMutation, TUpdateTripRequest } from '../../types/types';
+import type { TripResponse, TUpdateTripRequest } from '../../types/types';
 import { TRIP_ENDPOINTS } from '../../constants/tripEndpoints';
 
 export const updateTrip = async (id: number, token: string, body: TUpdateTripRequest, images: File[]) => {
@@ -12,7 +12,7 @@ export const updateTrip = async (id: number, token: string, body: TUpdateTripReq
     }),
   );
 
-  images.forEach((image) => {
+  images?.forEach((image) => {
     formData.append('images', image);
   });
 

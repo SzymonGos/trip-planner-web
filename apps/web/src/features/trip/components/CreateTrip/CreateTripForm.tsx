@@ -21,10 +21,12 @@ type TCreateTripFormProps = {
   onReset: () => void;
   setDirectionsValue: (value: TDirectionsValueProps) => void;
   handlePlaceSelect: (autocompleteInstance: TAutocompleteProps, fieldName: 'origin' | 'destination') => void;
-  originAutocomplete: TAutocompleteProps;
-  destinationAutocomplete: TAutocompleteProps;
   setOriginAutocomplete: (value: TAutocompleteProps) => void;
   setDestinationAutocomplete: (value: TAutocompleteProps) => void;
+  onExistingImageRemove?: (imageId: number) => void;
+  hasPendingImageChanges: boolean;
+  originAutocomplete: TAutocompleteProps;
+  destinationAutocomplete: TAutocompleteProps;
   isEditing?: boolean;
   authUserId: number;
   tripId?: number;
@@ -40,6 +42,8 @@ export const CreateTripForm: FC<TCreateTripFormProps> = ({
   handlePlaceSelect,
   setDestinationAutocomplete,
   setOriginAutocomplete,
+  onExistingImageRemove,
+  hasPendingImageChanges,
   originAutocomplete,
   destinationAutocomplete,
   isEditing = false,
@@ -118,7 +122,7 @@ export const CreateTripForm: FC<TCreateTripFormProps> = ({
                 </TooltipContent>
               </Tooltip>
             ) : (
-              <TripImagesManager existingImages={existingImages} />
+              <TripImagesManager existingImages={existingImages} onExistingImageRemove={onExistingImageRemove} />
             )}
           </div>
         </div>
@@ -130,6 +134,7 @@ export const CreateTripForm: FC<TCreateTripFormProps> = ({
           handleReset={onReset}
           tripId={tripId}
           tripTitle={tripTitle}
+          hasPendingImageChanges={hasPendingImageChanges}
         />
       </form>
     </Form>

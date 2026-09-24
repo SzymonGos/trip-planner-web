@@ -36,7 +36,7 @@ export const DeleteTripButton: FC<TDeleteTripButtonProps> = ({ tripId, tripTitle
       // delete
 
       setIsOpen(false);
-      router.push(getTripsUrl());
+      // router.push(getTripsUrl());
     } catch (error) {
       console.error('Failed to delete trip:', error);
     } finally {
@@ -60,7 +60,7 @@ export const DeleteTripButton: FC<TDeleteTripButtonProps> = ({ tripId, tripTitle
         <DialogHeader>
           <DialogTitle>Delete Trip</DialogTitle>
           <DialogDescription className="py-5">
-            Are you sure you want to delete &ldquo;{tripTitle.slice(0, 20)}...&rdquo;? This action cannot be undone and
+            Are you sure you want to delete &ldquo;{tripTitle?.slice(0, 20)}...&rdquo;? This action cannot be undone and
             will permanently remove the trip and all associated images.
           </DialogDescription>
         </DialogHeader>

@@ -4,7 +4,7 @@ import React, { useEffect } from 'react';
 import { useAuth, useUser } from '@clerk/nextjs';
 import { useAuthenticatedUser } from '@/features/user/hooks/useAuthenticatedUser';
 import { UserSettings } from './UserSettings';
-import { useForm } from 'react-hook-form';
+import { useForm, type SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { userSettingsSchema } from '../helpers/formValidation';
 import { z } from 'zod';
@@ -47,25 +47,52 @@ export const UserSettingsContainer = () => {
     }
   }, [user, useFormReturn]);
 
-  const handleOnSubmit = async (data: any) => {
+  // const handleOnSubmit = async (data: any) => {
+  //   try {
+  //     let profileImage = data.profileImage;
+  //     if (profileImage && !(profileImage instanceof File)) {
+  //       profileImage = undefined;
+  //     }
+  //     await mutateAsync({
+  //       body: {
+  //         username: data.username,
+  //       },
+  //       profileImage,
+  //     });
+  //     if (data.username && clerkUser) {
+  //       await clerkUser.update({
+  //         username: data.username,
+  //       });
+  //     }
+  //   } catch (e) {
+  //     console.error(e);
+  //   }
+  // };
+
+  const handleOnSubmit: SubmitHandler<TFormValuesProps> = async (data) => {
     try {
-      let profileImage = data.profileImage;
-      if (profileImage && !(profileImage instanceof File)) {
-        profileImage = undefined;
-      }
+      const profileImage = data.profileImage instanceof File ? data.profileImage : undefined;
+
       await mutateAsync({
         body: {
           username: data.username,
         },
         profileImage,
       });
+
       if (data.username && clerkUser) {
         await clerkUser.update({
           username: data.username,
         });
       }
-    } catch (e) {
-      console.error(e);
+
+      useFormReturn.reset({
+        username: data.username,
+        email: data.email,
+        profileImage: undefined,
+      });
+    } catch (error) {
+      console.error(error);
     }
   };
 

@@ -47,28 +47,6 @@ export const UserSettingsContainer = () => {
     }
   }, [user, useFormReturn]);
 
-  // const handleOnSubmit = async (data: any) => {
-  //   try {
-  //     let profileImage = data.profileImage;
-  //     if (profileImage && !(profileImage instanceof File)) {
-  //       profileImage = undefined;
-  //     }
-  //     await mutateAsync({
-  //       body: {
-  //         username: data.username,
-  //       },
-  //       profileImage,
-  //     });
-  //     if (data.username && clerkUser) {
-  //       await clerkUser.update({
-  //         username: data.username,
-  //       });
-  //     }
-  //   } catch (e) {
-  //     console.error(e);
-  //   }
-  // };
-
   const handleOnSubmit: SubmitHandler<TFormValuesProps> = async (data) => {
     try {
       const profileImage = data.profileImage instanceof File ? data.profileImage : undefined;

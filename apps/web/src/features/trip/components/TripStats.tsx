@@ -25,7 +25,7 @@ export const TripStats: FC<TTripStatsProps> = ({
   <div className={cx('flex items-center text-xs text-gray-700 gap-4 font-semibold', className)}>
     <span className="flex items-center gap-1">
       <MapPinIcon className={iconSize} />
-      {formatDistance(distance)}
+      {formatDistance(distance)} km
     </span>
     <span className="flex items-center gap-1">
       <ClockIcon className={iconSize} />

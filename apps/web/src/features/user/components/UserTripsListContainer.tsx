@@ -2,23 +2,20 @@
 
 import React from 'react';
 import { UserTripsList } from './UserTripsList';
-// import { MultipleTripCardsLoader } from '@/features/trip/components/MultipleTripCardsLoader';
+import type { TripResponse } from '@/features/trip/types/types';
+import { MultipleTripCardsLoader } from '@/features/trip/components/MultipleTripCardsLoader';
 
 type UserTripListContainerProps = {
-  userId: number;
-  username?: string;
+  trips: TripResponse[];
+  isLoading: boolean;
 };
 
-export const UserTripsListContainer = ({ userId }: UserTripListContainerProps) => {
-  console.log(userId);
-
-  // get user trips api
-
-  // if (loading) return <MultipleTripCardsLoader count={3} />;
+export const UserTripsListContainer = ({ trips, isLoading }: UserTripListContainerProps) => {
+  if (isLoading) return <MultipleTripCardsLoader count={3} />;
 
   return (
     <div className="mt-5 col-span-full lg:col-span-9">
-      <UserTripsList trips={[]} isLoading={false} />
+      <UserTripsList trips={trips} isLoading={isLoading} />
     </div>
   );
 };

@@ -34,11 +34,10 @@ const UserPageContainer: FC<TUserPageContainerProps> = ({ username }) => {
             createdAt={data?.createdAt}
             isLoading={isPending}
           />
-          {/* <ProfileCardContainer userId={data.id} /> */}
         </div>
         <div className="col-span-full lg:col-span-9">
-          {/* <StatisticsCardsContainer userId={data?.id} trips={data?.trips} /> */}
-          {/* <UserTripsListContainer userId={data?.id} username={data?.username} /> */}
+          <StatisticsCardsContainer trips={data?.userTrips} isLoading={isPending} />
+          <UserTripsListContainer trips={data?.userTrips} isLoading={isPending} />
         </div>
         <div className="mt-auto col-span-full">
           <Footer />

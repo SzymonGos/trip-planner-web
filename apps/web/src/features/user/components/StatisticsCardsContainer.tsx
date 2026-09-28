@@ -4,50 +4,34 @@ import React from 'react';
 import { StatisticsCard } from './StatisticsCard';
 import { MapPinIcon } from '@/components/Icons/MapPinIcon';
 import { ClockIcon } from '@/components/Icons/ClockIcon';
-import { formatDistance } from '../helpers/formatDistance';
 import type { TripResponse } from '@/features/trip/types/types';
-// import { StatiticsCardLoader } from './StatiticsCardLoader';
+import { formatDistance } from '@/features/trip/helpers/formatDistance';
+import { StatiticsCardLoader } from './StatiticsCardLoader';
 
 type StatisticsCardsContainerProps = {
-  userId: number;
-  trips?: TripResponse[];
+  trips: TripResponse[];
+  isLoading?: boolean;
 };
 
-export const StatisticsCardsContainer = ({ userId, trips }: StatisticsCardsContainerProps) => {
-  console.log(userId);
+export const StatisticsCardsContainer = ({ trips, isLoading }: StatisticsCardsContainerProps) => {
+  const totalCompletedTrips = trips?.length || 0;
 
-  // completed trips api
-
-  // if (loading) return <StatiticsCardLoader />;
-
-  const allTrips = trips;
-  const completedTrips = allTrips.filter((trip) => trip.status === 'completed');
-  const totalCompletedTrips = completedTrips.length;
-
-  // todo:
-  // const totalDistance = completedTrips.reduce((total, trip) => {
-  //   if (trip.distance) {
-  //     const distanceMatch = trip.distance.match(/([\d,]+(?:\.\d+)?)/);
-  //     if (distanceMatch) {
-  //       const cleanDistance = distanceMatch[1].replace(/,/g, '');
-  //       return total + parseFloat(cleanDistance);
-  //     }
-  //   }
-  //   return total;
-  // }, 0);
+  const totalDistanceMeters = trips?.reduce((total, trip) => total + trip.distanceMeters, 0) || 0;
 
   const statisticsCards = [
     {
       title: 'Completed Distance',
-      value: `${formatDistance(0)} km`,
+      value: `${formatDistance(totalDistanceMeters)} km`,
       icon: <MapPinIcon className="w-7 h-7 text-tp-primary" />,
     },
     {
       title: 'Completed Trips',
-      value: totalCompletedTrips.toString(),
+      value: totalCompletedTrips?.toString(),
       icon: <ClockIcon className="w-7 h-7 text-tp-primary" />,
     },
   ];
+
+  if (isLoading) return <StatiticsCardLoader />;
 
   return (
     <div className="grid grid-flow-row lg:grid-flow-col gap-4">

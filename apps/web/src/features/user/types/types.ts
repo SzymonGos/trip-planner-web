@@ -18,7 +18,7 @@ export type TUserResponse = {
   username: string;
   createdAt: string;
   profileImagePublicId: string;
-  trips: TripResponse[];
+  userTrips: TripResponse[];
 };
 
 export type TUpdateUserRequest = {

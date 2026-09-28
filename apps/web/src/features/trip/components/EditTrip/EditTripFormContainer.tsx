@@ -145,15 +145,6 @@ export const EditTripFormContainer: FC<TEditTripFormContainerProps> = ({ id }) =
   }, [directionsValue.origin, directionsValue.destination, getDistance]);
 
   useEffect(() => {
-    const currentStatus = useFormReturn.watch('status');
-    const currentImages = useFormReturn.watch('images');
-
-    if (currentStatus === 'PLANNING' && currentImages && currentImages.length > 0) {
-      useFormReturn.setValue('images', []);
-    }
-  }, [useFormReturn.watch('status')]);
-
-  useEffect(() => {
     useFormReturn.setValue('origin', directionsValue.origin as string, { shouldDirty: true });
     useFormReturn.setValue('destination', directionsValue.destination as string, { shouldDirty: true });
   }, [directionsValue, useFormReturn]);

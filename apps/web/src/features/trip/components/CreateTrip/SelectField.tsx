@@ -8,7 +8,7 @@ export type TSelectFieldProps<T extends FieldValues> = {
   name: Path<T>;
   label: string;
   placeholder: string;
-  options: { label: string; value: string }[];
+  options: { label: string; value: string; disabled?: boolean }[];
 };
 
 export const SelectField = <T extends FieldValues>({
@@ -31,7 +31,7 @@ export const SelectField = <T extends FieldValues>({
             </SelectTrigger>
             <SelectContent>
               {options.map((option) => (
-                <SelectItem key={option.value} value={option.value}>
+                <SelectItem key={option.value} value={option.value} disabled={option.disabled}>
                   {option.label}
                 </SelectItem>
               ))}

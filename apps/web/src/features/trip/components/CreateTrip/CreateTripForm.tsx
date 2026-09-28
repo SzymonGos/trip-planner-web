@@ -53,12 +53,13 @@ export const CreateTripForm: FC<TCreateTripFormProps> = ({
   loading,
   existingImages,
 }) => {
-  const formStatus = useWatch({
+  const [formStatus, newImages] = useWatch({
     control: useForm.control,
-    name: 'status',
+    name: ['status', 'images'],
   });
 
   const canAddImages = formStatus === 'COMPLETED';
+  const hasImages = (existingImages?.length ?? 0) > 0 || (newImages?.length ?? 0) > 0;
   const { isSubmitting, isDirty } = useForm.formState;
 
   return (
@@ -105,8 +106,15 @@ export const CreateTripForm: FC<TCreateTripFormProps> = ({
             label="Status"
             placeholder="Select status"
             options={[
-              { label: 'Planning', value: 'PLANNING' },
-              { label: 'Completed', value: 'COMPLETED' },
+              {
+                label: 'Planning',
+                value: 'PLANNING',
+                disabled: hasImages,
+              },
+              {
+                label: 'Completed',
+                value: 'COMPLETED',
+              },
             ]}
           />
           <div className="mt-2 w-fit">

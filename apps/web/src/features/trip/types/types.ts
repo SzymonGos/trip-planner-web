@@ -22,6 +22,12 @@ export type TripResponse = {
   tripImages: TripImagesResponse[];
 };
 
+export type TripSlice = {
+  content: TripResponse[];
+  number: number;
+  last: boolean;
+};
+
 export type TripImagesResponse = {
   id: number;
   publicId: string;

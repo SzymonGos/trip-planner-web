@@ -14,10 +14,7 @@ export default [
   { files: ['**/*.{js,mjs,cjs,ts}'] },
   { languageOptions: { globals: globals.browser } },
   {
-    ignores: [     
-      '**/.next/**',
-      '.vscode',
-    ],
+    ignores: ['**/.next/**', '.vscode'],
   },
   pluginJs.configs.recommended,
   ...tseslint.configs.recommended,
@@ -37,9 +34,6 @@ export default [
           unnamedComponents: 'arrow-function',
         },
       ],
-      // todo: revert this change after cleanup
-      '@typescript-eslint/no-unused-vars': 'off',
-      '@typescript-eslint/no-explicit-any': 'off'
     },
   }),
 ];

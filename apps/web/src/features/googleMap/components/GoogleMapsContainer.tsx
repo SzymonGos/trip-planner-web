@@ -5,7 +5,7 @@ import { GoogleMaps } from './GoogleMaps';
 import { useParams, usePathname } from 'next/navigation';
 import { TripDistanceInfo } from '@/features/trip/components/TripDistanceInfo/TripDistanceInfo';
 import { useGoogleMapsDirections } from '@/lib/contexts/DirectionsContext';
-import { AiChatSheetContainer } from '@/features/aichat/AiChatSheetContainer';
+// import { AiChatSheetContainer } from '@/features/aichat/AiChatSheetContainer';
 import { useAuthenticatedUser } from '@/features/user/hooks/useAuthenticatedUser';
 import { useQuery } from '@tanstack/react-query';
 import { useAuth } from '@clerk/nextjs';
@@ -59,7 +59,8 @@ export const GoogleMapsContainer = () => {
         canCreateRoute={canCreateRoute}
         googleMapMaxLimit={data?.googleMapsMaxLimit}
       />
-      {canEdit && <AiChatSheetContainer />}
+      {/* todo: refactor ai chat */}
+      {/* {canEdit && <AiChatSheetContainer />} */}
     </>
   );
 };

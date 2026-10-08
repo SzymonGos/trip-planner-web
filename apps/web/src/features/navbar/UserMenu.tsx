@@ -18,7 +18,7 @@ import { getUserSettingsUrl } from '@/features/user/helpers/getUserSettingsUrl';
 
 type TUserMenuProps = {
   userName: string;
-  profileImage: string;
+  profileImage?: string;
 };
 
 export const UserMenu: FC<TUserMenuProps> = ({ userName, profileImage }) => {
@@ -43,14 +43,16 @@ export const UserMenu: FC<TUserMenuProps> = ({ userName, profileImage }) => {
               Settings
             </Link>
           </DropdownMenuItem>
-          <DropdownMenuItem>
-            <SignOutButton signOutOptions={{ sessionId }}>
-              <div className="flex items-center gap-2">
-                <SignOutIcon className="size-5" />
-                Sign out
-              </div>
-            </SignOutButton>
-          </DropdownMenuItem>
+          {sessionId && (
+            <DropdownMenuItem>
+              <SignOutButton signOutOptions={{ sessionId }}>
+                <div className="flex items-center gap-2">
+                  <SignOutIcon className="size-5" />
+                  Sign out
+                </div>
+              </SignOutButton>
+            </DropdownMenuItem>
+          )}
         </DropdownMenuContent>
       </DropdownMenu>
     </div>

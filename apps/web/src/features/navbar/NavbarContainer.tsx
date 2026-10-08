@@ -11,7 +11,7 @@ export const NavbarContainer = () => {
   const { user } = useAuthenticatedUser();
 
   if (!isLoaded) {
-    return <Navbar userName={null} />;
+    return <Navbar userName={undefined} />;
   }
 
   return <Navbar userName={user?.username} profileImage={user?.profileImagePublicId} />;

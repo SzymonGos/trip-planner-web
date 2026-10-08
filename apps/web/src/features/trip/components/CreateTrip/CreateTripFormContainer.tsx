@@ -7,8 +7,6 @@ import { useGoogleMapsDirections } from '@/lib/contexts/DirectionsContext';
 import { useAuthenticatedUser } from '@/features/user/hooks/useAuthenticatedUser';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { tripSchema, type TTripFormValues } from '../../helpers/formValidation';
-import { useRouter } from 'next/navigation';
-import { getTripUrl } from '../../helpers/getTripUrl';
 import { useGoogleMapLoader } from '@/features/googleMap/hooks/useGoogleMapLoader';
 import { TripLoader } from '../TripLoader';
 import { useMutation } from '@tanstack/react-query';
@@ -23,7 +21,6 @@ export const CreateTripFormContainer = () => {
   const [destinationAutocomplete, setDestinationAutocomplete] = useState<TAutocompleteProps>(null);
   const { directionsValue, setDirectionsValue, handleClearDirections, distanceInfo } = useGoogleMapsDirections();
   const { authUserId } = useAuthenticatedUser();
-  const router = useRouter();
   const { isLoaded: isMapLoaded } = useGoogleMapLoader();
   const { getToken } = useAuth();
 
@@ -95,7 +92,6 @@ export const CreateTripFormContainer = () => {
       useFormReturn.reset();
 
       handleClearDirections();
-      // router?.push(getTripUrl(tripId));
     } catch (e) {
       console.error(e.message);
     }

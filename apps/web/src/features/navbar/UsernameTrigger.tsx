@@ -3,7 +3,7 @@ import { CldImage } from 'next-cloudinary';
 
 type TUsernameTriggerProps = {
   userName: string;
-  profileImageId: string;
+  profileImageId?: string;
 };
 
 export const UsernameTrigger: FC<TUsernameTriggerProps> = ({ userName, profileImageId }) => (

@@ -16,7 +16,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { navbarLinks } from './config';
 
 interface NavbarClientProps {
-  userName?: string | null;
+  userName?: string | undefined;
   profileImage?: string;
 }
 

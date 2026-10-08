@@ -19,7 +19,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { getTripByIdQuery } from '../../server/queries/getTripByIdQuery';
 import { updateTrip } from '../../server/actions/updateTrip';
 import { useAuth } from '@clerk/nextjs';
-import type { TripResponse, TUpdateTripMutation } from '../../types/types';
+import type { TripResponse, TUpdateTripMutation, TUpdateTripRequest } from '../../types/types';
 import { useRouter } from 'next/navigation';
 
 type TEditTripFormContainerProps = {
@@ -30,8 +30,7 @@ export const EditTripFormContainer: FC<TEditTripFormContainerProps> = ({ id }) =
   const [originAutocomplete, setOriginAutocomplete] = useState<TAutocompleteProps>(null);
   const [destinationAutocomplete, setDestinationAutocomplete] = useState<TAutocompleteProps>(null);
   const [removedImageIds, setRemovedImageIds] = useState<number[]>([]);
-  const { directionsValue, setDirectionsValue, handleClearDirections, distanceInfo, getDistance } =
-    useGoogleMapsDirections();
+  const { directionsValue, setDirectionsValue, handleClearDirections, getDistance } = useGoogleMapsDirections();
   const { authUserId } = useAuthenticatedUser();
   const { isLoaded } = useGoogleMapLoader();
   const { getToken } = useAuth();
@@ -113,7 +112,7 @@ export const EditTripFormContainer: FC<TEditTripFormContainerProps> = ({ id }) =
         body: {
           ...tripData,
           removedImageIds,
-        },
+        } as TUpdateTripRequest,
         images,
       });
       queryClient.setQueryData(['trip', id], updatedTrip);

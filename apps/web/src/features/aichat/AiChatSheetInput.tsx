@@ -12,7 +12,7 @@ type TAiChatSheetInputProps = {
   onKeyPress: (e: React.KeyboardEvent) => void;
   isLoading: boolean;
   onSendMessage: () => void;
-  authUserId: string;
+  authUserId: number;
 };
 
 export const AiChatSheetInput: FC<TAiChatSheetInputProps> = ({

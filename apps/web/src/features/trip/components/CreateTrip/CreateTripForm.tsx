@@ -24,7 +24,7 @@ type TCreateTripFormProps = {
   setOriginAutocomplete: (value: TAutocompleteProps) => void;
   setDestinationAutocomplete: (value: TAutocompleteProps) => void;
   onExistingImageRemove?: (imageId: number) => void;
-  hasPendingImageChanges: boolean;
+  hasPendingImageChanges?: boolean;
   originAutocomplete: TAutocompleteProps;
   destinationAutocomplete: TAutocompleteProps;
   isEditing?: boolean;
@@ -43,7 +43,7 @@ export const CreateTripForm: FC<TCreateTripFormProps> = ({
   setDestinationAutocomplete,
   setOriginAutocomplete,
   onExistingImageRemove,
-  hasPendingImageChanges,
+  hasPendingImageChanges = false,
   originAutocomplete,
   destinationAutocomplete,
   isEditing = false,

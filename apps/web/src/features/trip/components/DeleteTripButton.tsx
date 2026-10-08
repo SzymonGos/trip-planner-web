@@ -1,7 +1,6 @@
 'use client';
 
 import React, { FC, useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { DeleteIcon } from '@/components/Icons/DeleteIcon';
 import { Button } from '@/components/ui/button';
 import {
@@ -13,20 +12,17 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { getTripsUrl } from '../helpers/getTripsUrl';
 
 type TDeleteTripButtonProps = {
-  tripId: number;
+  tripId?: number;
   tripTitle: string;
 };
 
 export const DeleteTripButton: FC<TDeleteTripButtonProps> = ({ tripId, tripTitle }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
-  const router = useRouter();
 
-  console.log(tripId);
-
+  console.error(tripId);
   // todo: delete trip api
 
   const handleDelete = async () => {

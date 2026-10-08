@@ -6,7 +6,7 @@ export const forceSignIn = async (fallbackUrl: string = '/') => {
   const { userId } = await auth();
 
   if (!userId) {
-    redirect(`/sign-in?redirect_url=${encodeURIComponent(getRedirectUrl(fallbackUrl))}`);
+    redirect(`/sign-in?redirect_url=${encodeURIComponent(await getRedirectUrl(fallbackUrl))}`);
   }
 
   return userId;

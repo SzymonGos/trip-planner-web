@@ -36,8 +36,8 @@ export const GoogleMaps: FC<TGoogleMapsProps> = ({
   canCreateRoute,
   googleMapMaxLimit,
 }) => {
-  const { authUserId } = useAuthenticatedUser();
-  const { incrementRouteCount } = useRouteUsage(authUserId);
+  const { isAuth } = useAuthenticatedUser();
+  const { incrementRouteCount } = useRouteUsage(isAuth);
   const router = useRouter();
   const [originCoords, setOriginCoords] = useState<TLocationCoordsProps | null>(null);
   const [destinationCoords, setDestinationCoords] = useState<TLocationCoordsProps | null>(null);
@@ -75,14 +75,14 @@ export const GoogleMaps: FC<TGoogleMapsProps> = ({
     (e: google.maps.MapMouseEvent) => {
       if (!canEdit || !e.latLng) return;
 
-      if (!authUserId) {
+      if (!isAuth) {
         toast('Please login to create a route.', {
           action: { label: 'Login', onClick: () => router.push('/sign-in') },
         });
         return;
       }
 
-      if (authUserId && shouldCountRoutes && !canCreateRoute) {
+      if (isAuth && shouldCountRoutes && !canCreateRoute) {
         toast.error(
           `Route limit reached! You've used ${googleMapMaxLimit} routes this month. Please wait until reset.`,
         );
@@ -107,7 +107,7 @@ export const GoogleMaps: FC<TGoogleMapsProps> = ({
       directionsValue,
       setDirectionsValue,
       canEdit,
-      authUserId,
+      isAuth,
       shouldCountRoutes,
       canCreateRoute,
       router,
@@ -145,7 +145,14 @@ export const GoogleMaps: FC<TGoogleMapsProps> = ({
         console.error('Directions request failed:', status);
       }
     },
-    [setDirectionsResult, directionsValue, getDistance, incrementRouteCount],
+    [
+      setDirectionsResult,
+      directionsValue.origin,
+      directionsValue.destination,
+      getDistance,
+      shouldCountRoutes,
+      incrementRouteCount,
+    ],
   );
 
   const onDirectionsLoad = useCallback(

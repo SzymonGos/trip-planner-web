@@ -5,7 +5,6 @@ import { GoogleMaps } from './GoogleMaps';
 import { useParams, usePathname } from 'next/navigation';
 import { TripDistanceInfo } from '@/features/trip/components/TripDistanceInfo/TripDistanceInfo';
 import { useGoogleMapsDirections } from '@/lib/contexts/DirectionsContext';
-// import { AiChatSheetContainer } from '@/features/aichat/AiChatSheetContainer';
 import { useAuthenticatedUser } from '@/features/user/hooks/useAuthenticatedUser';
 import { useQuery } from '@tanstack/react-query';
 import { useAuth } from '@clerk/nextjs';
@@ -38,8 +37,15 @@ export const GoogleMapsContainer = () => {
     },
   });
 
-  const canCreateRoute = data?.googleMapsRouteCount < data?.googleMapsMaxLimit;
-  const usagePercentage = Math.round((data?.googleMapsRouteCount / data?.googleMapsMaxLimit) * 100);
+  const routeCount = data?.googleMapsRouteCount ?? 0;
+  const maxLimit = data?.googleMapsMaxLimit ?? 0;
+  const resetDate = data?.googleMapsRouteResetDate ?? '';
+
+  const canCreateRoute = !!data && routeCount < maxLimit;
+  const usagePercentage = maxLimit > 0 ? Math.round((routeCount / maxLimit) * 100) : 0;
+
+  // const canCreateRoute = data?.googleMapsRouteCount < data?.googleMapsMaxLimit;
+  // const usagePercentage = Math.round((data?.googleMapsRouteCount / data?.googleMapsMaxLimit) * 100);
 
   return (
     <>
@@ -47,10 +53,10 @@ export const GoogleMapsContainer = () => {
         <TripDistanceInfo
           distanceMeters={distanceInfo?.distanceMeters}
           estimatedDurationSeconds={distanceInfo?.estimatedDurationSeconds}
-          currentRouteCount={data?.googleMapsRouteCount}
+          currentRouteCount={routeCount}
           usagePercentage={usagePercentage}
-          googleMapsMaxLimit={data?.googleMapsMaxLimit}
-          resetDate={data?.googleMapsRouteResetDate}
+          googleMapsMaxLimit={maxLimit}
+          resetDate={resetDate}
         />
       )}
       <GoogleMaps
@@ -59,8 +65,7 @@ export const GoogleMapsContainer = () => {
         canCreateRoute={canCreateRoute}
         googleMapMaxLimit={data?.googleMapsMaxLimit}
       />
-      {/* todo: refactor ai chat */}
-      {/* {canEdit && <AiChatSheetContainer />} */}
+      {/* todo: refactor ai chat AiChatSheetContainer */}
     </>
   );
 };

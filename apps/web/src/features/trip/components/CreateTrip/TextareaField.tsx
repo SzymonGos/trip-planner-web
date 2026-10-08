@@ -2,9 +2,9 @@ import React from 'react';
 import { FormField, FormItem, FormLabel, FormControl, FormMessage } from '@/components/ui/form';
 import { Textarea } from '@/components/ui/textarea';
 import { TInputFieldProps } from './InputField';
-import { TFormValuesProps } from './CreateTripFormContainer';
+import type { TTripFormValues } from '../../helpers/formValidation';
 
-type TTextareaFieldProps = TInputFieldProps<TFormValuesProps>;
+type TTextareaFieldProps = TInputFieldProps<TTripFormValues>;
 
 export const TextareaField = ({ control, label, name, placeholder }: TTextareaFieldProps) => (
   <FormField

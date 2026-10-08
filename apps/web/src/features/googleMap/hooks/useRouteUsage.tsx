@@ -1,20 +1,13 @@
 import { useCallback, useRef } from 'react';
 
-export const useRouteUsage = (authUserId: number) => {
-  // user route count api
-
-  // user route count mutation
-
+export const useRouteUsage = (isAuth: boolean) => {
   const isProcessingRef = useRef(false);
   const completedRoutesRef = useRef<Set<string>>(new Set());
   const currentRouteCount = 0;
 
-  // const resetDate = userData?.user?.googleMapsRouteResetDate;
-  const resetDate = '';
-
   const incrementRouteCount = useCallback(
     async (origin: string, destination: string) => {
-      if (!authUserId) {
+      if (!isAuth) {
         return;
       }
       const routeHash = `${origin}|${destination}`.toLowerCase();
@@ -29,9 +22,6 @@ export const useRouteUsage = (authUserId: number) => {
       isProcessingRef.current = true;
 
       try {
-        // const newCount = currentRouteCount + 1;
-        // user route count update
-
         completedRoutesRef.current.add(routeHash);
       } catch (error) {
         console.error('Failed to update route count:', error);
@@ -39,13 +29,11 @@ export const useRouteUsage = (authUserId: number) => {
         isProcessingRef.current = false;
       }
     },
-    [authUserId, currentRouteCount],
+    [isAuth],
   );
 
   return {
     currentRouteCount,
-    resetDate,
     incrementRouteCount,
-    // refetch,
   };
 };

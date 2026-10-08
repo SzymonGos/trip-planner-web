@@ -13,7 +13,7 @@ type TCreateTripFormActionsProps = {
   handleReset: () => void;
   tripId?: number;
   tripTitle?: string;
-  hasPendingImageChanges: boolean;
+  hasPendingImageChanges?: boolean;
 };
 export const CreateTripFormActions: FC<TCreateTripFormActionsProps> = ({
   authUserId,
@@ -21,7 +21,6 @@ export const CreateTripFormActions: FC<TCreateTripFormActionsProps> = ({
   isEditing,
   hasChanges,
   handleReset,
-  hasPendingImageChanges,
   tripId,
   tripTitle,
 }) => (
@@ -29,11 +28,7 @@ export const CreateTripFormActions: FC<TCreateTripFormActionsProps> = ({
     {!authUserId && <SignInButton />}
     {authUserId && (
       <>
-        <Button
-          type="submit"
-          className="min-w-[200px]"
-          disabled={isSubmitting || (isEditing && !hasChanges && !hasPendingImageChanges)}
-        >
+        <Button type="submit" className="min-w-[200px]" disabled={isSubmitting || (isEditing && !hasChanges)}>
           {isSubmitting ? (
             <>
               <Loader2 className="h-4 w-4 animate-spin" />
@@ -52,6 +47,6 @@ export const CreateTripFormActions: FC<TCreateTripFormActionsProps> = ({
         )}
       </>
     )}
-    {/* {isEditing && <DeleteTripButton tripId={tripId} tripTitle={tripTitle} />} */}
+    {isEditing && <DeleteTripButton tripId={tripId} tripTitle={tripTitle} />}
   </div>
 );

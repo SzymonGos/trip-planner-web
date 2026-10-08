@@ -18,8 +18,7 @@ export async function POST(req: Request) {
     });
   }
 
-  const payload = await req.json();
-  const body = JSON.stringify(payload);
+  const body = await req.text();
 
   let evt: WebhookEvent;
 
@@ -39,10 +38,17 @@ export async function POST(req: Request) {
   const eventType = evt.type;
 
   if (eventType === 'user.created') {
+    const username = evt.data.username;
+
+    if (!username) {
+      console.error('Clerk user has no username:', evt.data.id);
+      return new Response('Missing username', { status: 422 });
+    }
+
     try {
       await createUser({
         clerkId: evt.data.id,
-        username: evt.data.username,
+        username,
         email: evt.data.email_addresses[0].email_address,
       });
     } catch (error) {

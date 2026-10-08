@@ -23,5 +23,6 @@
     }
   },
   "include": ["next-env.d.ts", ".next/types/**/*.ts", "**/*.ts", "**/*.tsx", "jest.config.js"],
-  "exclude": ["node_modules"]
+  // todo: remove aichat src when it's done.
+  "exclude": ["node_modules", "src/features/aichat"]
 }

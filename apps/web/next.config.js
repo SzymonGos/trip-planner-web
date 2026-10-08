@@ -1,20 +1,15 @@
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const path = require('node:path');
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  /* config options here */
-  env: {
-    GOOGLE_MAPS_API_KEY: process.env.GOOGLE_MAPS_API_KEY || '',
-    CLERK_WEBHOOK_SECRET: process.env.CLERK_WEBHOOK_SECRET || '',
-    CLERK_SECRET_KEY: process.env.CLERK_SECRET_KEY || '',
-    OPENAI_API_KEY: process.env.OPENAI_API_KEY || '',
-    API_URL: process.env.API_URL || '',
-  },
   eslint: {
     ignoreDuringBuilds: true,
   },
   images: {
     domains: [process.env.CLOUDINARY_API_DOMAIN || ''],
   },
-  outputFileTracingRoot: '/web',
+  outputFileTracingRoot: path.join(__dirname, '../..'),
   experimental: {
     globalNotFound: true,
   },

@@ -31,5 +31,17 @@ export async function apiClient<T>(endpoint: string, options: TApiClientOptions 
     throw new Error(error?.message ?? `API request failed with status ${response.status}`);
   }
 
+  if (response.status === 204 || response.status === 205) {
+    return undefined as T;
+  }
+
+  const text = await response.text();
+
+  if (!text) {
+    return undefined as T;
+  }
+
+  return JSON.parse(text) as T;
+
   return response.json();
 }

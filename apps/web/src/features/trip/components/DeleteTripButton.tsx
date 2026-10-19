@@ -12,6 +12,11 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
+import { useAuth } from '@clerk/nextjs';
+import { useMutation } from '@tanstack/react-query';
+import { deleteTrip } from '../server/actions/deleteTrip';
+import { useRouter } from 'next/navigation';
+import { getTripsUrl } from '../helpers/getTripsUrl';
 
 type TDeleteTripButtonProps = {
   tripId?: number;
@@ -21,18 +26,27 @@ type TDeleteTripButtonProps = {
 export const DeleteTripButton: FC<TDeleteTripButtonProps> = ({ tripId, tripTitle }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+  const router = useRouter();
+  const { getToken } = useAuth();
 
-  console.error(tripId);
-  // todo: delete trip api
+  const { mutateAsync: deleteTripMutation } = useMutation({
+    mutationFn: async (id: number) => {
+      const token = await getToken();
+
+      if (!token) {
+        throw new Error('Authentication token is missing');
+      }
+
+      return deleteTrip(id, token);
+    },
+  });
 
   const handleDelete = async () => {
     try {
       setIsDeleting(true);
-
-      // delete
-
+      await deleteTripMutation(tripId);
       setIsOpen(false);
-      // router.push(getTripsUrl());
+      router.push(getTripsUrl());
     } catch (error) {
       console.error('Failed to delete trip:', error);
     } finally {

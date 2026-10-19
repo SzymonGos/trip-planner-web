@@ -44,9 +44,6 @@ export const GoogleMapsContainer = () => {
   const canCreateRoute = !!data && routeCount < maxLimit;
   const usagePercentage = maxLimit > 0 ? Math.round((routeCount / maxLimit) * 100) : 0;
 
-  // const canCreateRoute = data?.googleMapsRouteCount < data?.googleMapsMaxLimit;
-  // const usagePercentage = Math.round((data?.googleMapsRouteCount / data?.googleMapsMaxLimit) * 100);
-
   return (
     <>
       {authUserId && (isTripPlannerPage || isEditTripPlannerPage) && (

@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, useMemo, useRef, useState, useCallback, RefObject } from 'react';
+import { createContext, useContext, useMemo, useRef, useState, useCallback, RefObject, useEffect } from 'react';
 import { initialDirections, TDirectionsValueProps } from './constants';
 import { useGoogleMapLoader } from '@/features/googleMap/hooks/useGoogleMapLoader';
 
@@ -57,6 +57,22 @@ export const DirectionsProvider = ({ children }) => {
     },
     [isLoaded],
   );
+
+  useEffect(() => {
+    if (process.env.NODE_ENV !== 'development' || !('Cypress' in window)) {
+      return;
+    }
+
+    const testWindow = window as Window & {
+      setTestDistanceInfo?: (value: TDistanceMatrixResult) => void;
+    };
+
+    testWindow.setTestDistanceInfo = setDistanceInfo;
+
+    return () => {
+      delete testWindow.setTestDistanceInfo;
+    };
+  }, []);
 
   const handleClearDirections = useCallback(() => {
     if (directionsRendererRef.current) {

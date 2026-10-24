@@ -10,6 +10,7 @@ export type TInputFieldProps<T extends FieldValues> = {
   placeholder: string;
   hasError?: boolean;
   disabled?: boolean;
+  dataCy?: string;
 };
 
 export const InputField = <T extends FieldValues>({
@@ -19,6 +20,7 @@ export const InputField = <T extends FieldValues>({
   placeholder,
   hasError,
   disabled = false,
+  dataCy,
 }: TInputFieldProps<T>) => (
   <FormField
     control={control}
@@ -33,6 +35,7 @@ export const InputField = <T extends FieldValues>({
             {...field}
             className="py-6 md:text-base !border-[0.5px] focus-visible:ring-0 border-tp-gray-100 focus:border focus:border-tp-gray-200 shadow-none"
             hasError={hasError}
+            data-cy={dataCy}
           />
         </FormControl>
         <FormMessage className="text-base" />

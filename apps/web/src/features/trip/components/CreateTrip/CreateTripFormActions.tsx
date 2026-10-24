@@ -28,7 +28,12 @@ export const CreateTripFormActions: FC<TCreateTripFormActionsProps> = ({
     {!authUserId && <SignInButton />}
     {authUserId && (
       <>
-        <Button type="submit" className="min-w-[200px]" disabled={isSubmitting || (isEditing && !hasChanges)}>
+        <Button
+          type="submit"
+          className="min-w-[200px]"
+          disabled={isSubmitting || (isEditing && !hasChanges)}
+          data-cy="submit-trip"
+        >
           {isSubmitting ? (
             <>
               <Loader2 className="h-4 w-4 animate-spin" />

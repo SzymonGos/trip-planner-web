@@ -72,8 +72,15 @@ export const CreateTripForm: FC<TCreateTripFormProps> = ({
             name="title"
             label="Title"
             placeholder="Trip Title"
+            dataCy="trip-title"
           />
-          <TextareaField control={useForm.control} name="description" label="Description" placeholder="Description" />
+          <TextareaField
+            control={useForm.control}
+            name="description"
+            label="Description"
+            placeholder="Description"
+            dataCy="trip-description"
+          />
         </div>
         <div className="mt-10 flex flex-col gap-6">
           <Autocomplete
@@ -86,6 +93,7 @@ export const CreateTripForm: FC<TCreateTripFormProps> = ({
               name="origin"
               label="Origin"
               placeholder="Start Route"
+              dataCy="trip-origin"
             />
           </Autocomplete>
           <Autocomplete
@@ -98,6 +106,7 @@ export const CreateTripForm: FC<TCreateTripFormProps> = ({
               name="destination"
               label="Destination"
               placeholder="End Route"
+              dataCy="trip-destination"
             />
           </Autocomplete>
           <SelectField

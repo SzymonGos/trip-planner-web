@@ -2,22 +2,23 @@ import React, { FC } from 'react';
 import cx from 'classnames';
 
 import { formatDate } from '../trip/helpers/formatDate';
-import { USER_AI_CHAT_LIMIT } from '@/lib/config';
 
 type TAiChatUsageProgressBarProps = {
   currentUsage: number;
   usagePercentage: number;
   resetDate?: string;
+  aiChatMaxLimit: number;
 };
 
 export const AiChatUsageProgressBar: FC<TAiChatUsageProgressBarProps> = ({
   currentUsage,
   usagePercentage,
   resetDate,
+  aiChatMaxLimit,
 }) => (
   <div data-testid="progressbar" className={cx('text-xs text-gray-500 flex flex-col items-start mt-4')}>
     <span className="font-medium">
-      {currentUsage}/{USER_AI_CHAT_LIMIT} messages
+      {currentUsage}/{aiChatMaxLimit} messages
     </span>
     <div className="w-[90px] h-[6px] bg-gray-200 rounded-full mt-1">
       <div

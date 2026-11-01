@@ -1,68 +1,79 @@
 'use client';
 
-import React, { useReducer, useCallback } from 'react';
+import React, { useReducer, useCallback, useEffect, useState, type FC } from 'react';
+import { useAuth } from '@clerk/nextjs';
 import { AiChatSheet } from './AiChatSheet';
 import { chatReducer, initialState } from './helpers/chatReducer';
-import { CHAT_API_URL, USER_AI_CHAT_LIMIT } from '@/lib/config';
 import { useAuthenticatedUser } from '../user/hooks/useAuthenticatedUser';
+import { sendAiChatMessage } from './server/actions/sendAiChatMessage';
 import { Toaster, toast } from 'sonner';
 
-export const AiChatSheetContainer = () => {
+type TAIChatUsage = {
+  aiChatUsageCount: number;
+  aiChatMaxLimit: number;
+  aiChatUsageResetDate: string;
+};
+
+export const AiChatSheetContainer: FC<TAIChatUsage> = ({ aiChatMaxLimit, aiChatUsageCount, aiChatUsageResetDate }) => {
   const [state, dispatch] = useReducer(chatReducer, initialState);
+  const [currentUsage, setCurrentUsage] = useState(aiChatUsageCount);
+
   const { authUserId } = useAuthenticatedUser();
+  const { getToken } = useAuth();
 
-  // todo1: get user api
-  // todo2: update user api
+  useEffect(() => {
+    setCurrentUsage(aiChatUsageCount);
+  }, [aiChatUsageCount]);
 
-  // const currentUsage = userData?.user?.aiChatUsageCount || 0;
-  const currentUsage = 0;
-  // const usagePercentage = Math.round((currentUsage / USER_AI_CHAT_LIMIT) * 100);
-
-  const trackMesssageCount = useCallback(async () => {
-    if (!authUserId) return;
-    try {
-      // const currentCount = userData?.user?.aiChatUsageCount || 0;
-      // const newCount = currentCount + 1;
-    } catch (error) {
-      console.error('Failed to update message count:', error);
-    }
-  }, [authUserId]);
+  const usagePercentage = aiChatMaxLimit > 0 ? Math.round((currentUsage / aiChatMaxLimit) * 100) : 0;
 
   const handleSendMessage = useCallback(async () => {
     if (!state.inputValue.trim() || state.isLoading) return;
-    if (currentUsage >= USER_AI_CHAT_LIMIT) {
-      toast.error('AI chat limit reached. Please wait for reset.', {
-        position: 'top-center',
-        duration: 2000,
+
+    if (currentUsage >= aiChatMaxLimit) {
+      toast.error('AI chat limit reached. Please wait for reset.');
+
+      dispatch({
+        type: 'SET_ERROR',
+        payload: 'AI chat limit reached. Please wait for reset.',
       });
-      dispatch({ type: 'SET_ERROR', payload: 'AI chat limit reached. Please wait for reset.' });
+
       return;
     }
+
     const messageContent = state.inputValue.trim();
-    dispatch({ type: 'SEND_MESSAGE', payload: messageContent });
+
+    dispatch({
+      type: 'SEND_MESSAGE',
+      payload: messageContent,
+    });
+
     try {
-      const response = await fetch(CHAT_API_URL, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ message: messageContent }),
+      const token = await getToken();
+
+      if (!token) {
+        throw new Error('Authentication required');
+      }
+
+      const data = await sendAiChatMessage(messageContent, token);
+
+      dispatch({
+        type: 'AI_RESPONSE',
+        payload: data.response,
       });
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      const data = await response.json();
-      if (data.error) {
-        throw new Error(data.error);
-      }
-      dispatch({ type: 'AI_RESPONSE', payload: data.response });
-      await trackMesssageCount();
+
+      setCurrentUsage(data.usageCount);
     } catch (err) {
       console.error('Chat API error:', err);
+
       const errorMessage = err instanceof Error ? err.message : 'Failed to send message';
-      dispatch({ type: 'SET_ERROR', payload: errorMessage });
+
+      dispatch({
+        type: 'SET_ERROR',
+        payload: errorMessage,
+      });
     }
-  }, [state.inputValue, state.isLoading, trackMesssageCount, currentUsage]);
+  }, [state.inputValue, state.isLoading, currentUsage, aiChatMaxLimit, getToken]);
 
   const handleInputChange = useCallback((value: string) => {
     dispatch({ type: 'SET_INPUT', payload: value });
@@ -81,6 +92,7 @@ export const AiChatSheetContainer = () => {
   return (
     <>
       <Toaster position="top-center" richColors duration={2000} />
+
       <AiChatSheet
         messages={state.messages}
         inputValue={state.inputValue}
@@ -89,9 +101,10 @@ export const AiChatSheetContainer = () => {
         onSendMessage={handleSendMessage}
         onKeyPress={handleKeyPress}
         authUserId={authUserId}
-        currentUsage={0}
-        usagePercentage={0}
-        resetDate={''}
+        currentUsage={currentUsage}
+        usagePercentage={usagePercentage}
+        resetDate={aiChatUsageResetDate}
+        aiChatMaxLimit={aiChatMaxLimit}
       />
     </>
   );

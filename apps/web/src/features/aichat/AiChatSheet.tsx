@@ -30,6 +30,7 @@ type TAiChatSheetProps = {
   currentUsage: number;
   usagePercentage: number;
   resetDate?: string;
+  aiChatMaxLimit: number;
 };
 
 export const AiChatSheet: FC<TAiChatSheetProps> = ({
@@ -43,6 +44,7 @@ export const AiChatSheet: FC<TAiChatSheetProps> = ({
   currentUsage,
   usagePercentage,
   resetDate,
+  aiChatMaxLimit,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
@@ -120,6 +122,7 @@ export const AiChatSheet: FC<TAiChatSheetProps> = ({
                   currentUsage={currentUsage}
                   usagePercentage={usagePercentage}
                   resetDate={resetDate}
+                  aiChatMaxLimit={aiChatMaxLimit}
                 />
               )}
             </div>

@@ -9,6 +9,7 @@ import { useAuthenticatedUser } from '@/features/user/hooks/useAuthenticatedUser
 import { useQuery } from '@tanstack/react-query';
 import { useAuth } from '@clerk/nextjs';
 import { getUserUsageQuery } from '../server/queries/getUserUsageQuery';
+import { AiChatSheetContainer } from '@/features/aichat/AiChatSheetContainer';
 
 export const GoogleMapsContainer = () => {
   const params = useParams();
@@ -62,7 +63,11 @@ export const GoogleMapsContainer = () => {
         canCreateRoute={canCreateRoute}
         googleMapMaxLimit={data?.googleMapsMaxLimit}
       />
-      {/* todo: refactor ai chat AiChatSheetContainer */}
+      <AiChatSheetContainer
+        aiChatUsageCount={data?.aiChatUsageCount}
+        aiChatMaxLimit={data?.aiChatMaxLimit}
+        aiChatUsageResetDate={data?.aiChatUsageResetDate}
+      />
     </>
   );
 };

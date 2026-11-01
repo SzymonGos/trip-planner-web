@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 import cx from 'classnames';
+import ReactMarkdown from 'react-markdown';
 
 type TAiChatSheetMessageProps = {
   id: string;
@@ -20,7 +21,15 @@ export const AiChatSheetMessage: FC<TAiChatSheetMessageProps> = ({ id, content, 
         'px-4 bg-zinc-500 text-white': role === 'user',
       })}
     >
-      <p className="text-sm whitespace-pre-wrap leading-6">{content}</p>
+      <ReactMarkdown
+        components={{
+          p: ({ children }) => <p className="text-sm whitespace-pre-wrap first:pt-0 pt-4">{children}</p>,
+          ul: ({ children }) => <ul className="my-2 list-disc pl-5">{children}</ul>,
+          li: ({ children }) => <li className="my-1 leading-6">{children}</li>,
+        }}
+      >
+        {content}
+      </ReactMarkdown>
     </div>
   </div>
 );

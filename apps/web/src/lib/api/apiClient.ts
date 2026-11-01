@@ -42,6 +42,4 @@ export async function apiClient<T>(endpoint: string, options: TApiClientOptions 
   }
 
   return JSON.parse(text) as T;
-
-  return response.json();
 }

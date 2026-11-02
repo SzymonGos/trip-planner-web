@@ -16,12 +16,14 @@ type StatisticsCardsContainerProps = {
 export const StatisticsCardsContainer = ({ trips, isLoading }: StatisticsCardsContainerProps) => {
   const totalCompletedTrips = trips?.length || 0;
 
-  const totalDistanceMeters = trips?.reduce((total, trip) => total + trip.distanceMeters, 0) || 0;
+  const completedDistance = trips
+    ?.filter((trip) => trip?.status === 'COMPLETED')
+    ?.reduce((total, trip) => total + trip.distanceMeters, 0);
 
   const statisticsCards = [
     {
       title: 'Completed Distance',
-      value: `${formatDistance(totalDistanceMeters)} km`,
+      value: `${formatDistance(completedDistance)} km`,
       icon: <MapPinIcon className="w-7 h-7 text-tp-primary" />,
     },
     {

@@ -181,7 +181,7 @@ export const Footer = () => (
       <div className="border-t border-tp-gray-200"></div>
       <div className="py-10 flex flex-col md:flex-row justify-between items-center">
         <div className="font-secondary text-tp-gray-300 text-sm mb-4 md:mb-0">
-          © 2024 RouteTripper. All rights reserved.
+          © {new Date().getFullYear()} RouteTripper. All rights reserved.
         </div>
         <div className="flex space-x-6">
           <Link href="#" className="font-secondary text-tp-gray-300 hover:text-tp-primary transition-colors text-sm">

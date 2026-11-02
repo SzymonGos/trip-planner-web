@@ -14,7 +14,7 @@ type StatisticsCardsContainerProps = {
 };
 
 export const StatisticsCardsContainer = ({ trips, isLoading }: StatisticsCardsContainerProps) => {
-  const totalCompletedTrips = trips?.length || 0;
+  const totalCompletedTrips = trips?.filter((trip) => trip.status === 'COMPLETED').length ?? 0;
 
   const completedDistance = trips
     ?.filter((trip) => trip?.status === 'COMPLETED')

@@ -1,53 +1,42 @@
-# 🗺️ Routetripper – AI-Powered Travel Planner
+# RouteTripper Web
 
-Full-stack travel planning platform with AI assistance, interactive maps, and modern architecture. Built to showcase production-grade engineering with Next.js, Keystone CMS, and real-time integrations.
+Frontend application for [RouteTripper](https://routetripper.com/), a web application for planning, managing, and sharing road trips.
 
-**[Live Product](https://routetripper.com)**
+Built with Next.js, React, and TypeScript, featuring Google Maps integration, user authentication, and communication with a dedicated Spring Boot REST API.
+
+**Live Application:** [RouteTripper](https://routetripper.com/)  
+**Backend Repository:** [trip-planner-api](https://github.com/SzymonGos/trip-planner-api)
 
 ## Features
 
-- **AI Travel Assistant** – OpenAI GPT-4 integration for trip suggestions and route planning
-- **Interactive Maps** – Google Maps API with route optimization and custom styling
-- **Trip Management** – Create, edit, and organize multi-day itineraries
-- **Admin Dashboard** – KeystoneJS CMS for content and user management
-- **User Accounts** – Authentication and session handling with Clerk
-- **Content & Media** – Keystone CMS + Cloudinary for content and image storage
-- **Modern UI** – Responsive, accessible design with TailwindCSS and Radix UI
+- Interactive route planning with Google Maps
+- Location autocomplete and driving directions
+- Trip creation, editing, and deletion
+- Trip image uploads and management
+- User authentication with Clerk
+- User profiles and trip history
+- Trip listings with incremental loading
+- Responsive user interface
 
-## Tech Stack
+## Application Architecture
 
-- **Frontend**: Next.js 14 (App Router), TypeScript, Apollo Client, TailwindCSS
-- **Backend**: Keystone 6 CMS, PostgreSQL, Prisma ORM, GraphQL
-- **AI**: OpenAI GPT-4 with usage tracking
-- **Auth**: Clerk with JWT validation
-- **Maps & Media**: Google Maps API, Cloudinary
+A Next.js application organized by domain features, separating UI components, data fetching, form validation, and API communication.
 
-## Deployment
+- **App Router** — page routing and application layouts.
+- **Feature-based structure** — components, hooks, and API logic grouped by domain.
+- **TanStack Query** — asynchronous data fetching, mutations, and caching.
+- **React Hook Form & Zod** — form state management and validation.
+- **API Client** — communication with the Spring Boot REST API.
+- **Clerk** — authentication and JWT management.
 
-Full-stack app deployed on [Railway](https://railway.app) with:
+## Technical Decisions
 
-- **Frontend**: Next.js app
-- **Backend**: KeystoneJS CMS + PostgreSQL
-- **Custom Domain**: Managed via Cloudflare
+- **Feature-based architecture** — keeps related components, hooks, and business functionality together.
+- **Server-side business rules** — the Spring Boot API enforces ownership, trip status restrictions, and usage limits.
+- **TanStack Query** — manages server state and supports incremental trip loading.
+- **Google Maps integration** — calculates driving routes, distances, and estimated travel duration.
+- **Multipart form submissions** — sends trip data and image files to the backend.
 
-## Run Locally
+## Technologies
 
-```bash
-git clone https://github.com/SzymonGos/trip-planner.git
-cd trip-planner
-npm install
-npm run dev
-```
-
-Environment variables needed:
-
-- `GOOGLE_MAPS_API_KEY`
-- `CLERK_SECRET_KEY`
-- `OPENAI_API_KEY`
-- `DATABASE_URL`
-
-## 📸 Screenshots
-
-![Trip Planner](./apps/docs/screenshots/landing_page.png)
-
-[See more screenshots →](./apps/docs/screenshots.md)
+Next.js · React · TypeScript · Tailwind CSS · TanStack Query · React Hook Form · Zod · Clerk · Google Maps JavaScript API · shadcn/ui

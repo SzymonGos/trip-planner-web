@@ -1,4 +1,6 @@
 import React from 'react';
+import { describe, expect, it } from '@jest/globals';
+import '@testing-library/jest-dom/jest-globals';
 import { render, screen } from '@testing-library/react';
 import { AiChatUsageProgressBar } from '../AiChatUsageProgressBar';
 
@@ -6,15 +8,12 @@ jest.mock('@/features/trip/helpers/formatDate', () => ({
   formatDate: (date: string) => `formatted-${date}`,
 }));
 
-jest.mock('@/lib/config', () => ({
-  USER_AI_CHAT_LIMIT: 20,
-}));
-
 describe('AiChatUsageProgressBar', () => {
   const defaultProps = {
     currentUsage: 5,
     usagePercentage: 25,
     resetDate: '2024-01-15',
+    aiChatMaxLimit: 5,
   };
 
   describe('Rendering', () => {
@@ -23,12 +22,12 @@ describe('AiChatUsageProgressBar', () => {
 
       const container = screen.getByTestId('progressbar');
       expect(container).toBeInTheDocument();
-      expect(container).toHaveTextContent('5/20 messages');
+      expect(container).toHaveTextContent('5/5 messages');
     });
 
     it('should display current usage and limit correctly', () => {
       render(<AiChatUsageProgressBar {...defaultProps} />);
-      expect(screen.getByText('5/20 messages')).toBeInTheDocument();
+      expect(screen.getByText('5/5 messages')).toBeInTheDocument();
     });
 
     it('should render progress bar container', () => {
@@ -91,7 +90,7 @@ describe('AiChatUsageProgressBar', () => {
     });
 
     it('should not display reset date when not provided', () => {
-      render(<AiChatUsageProgressBar currentUsage={5} usagePercentage={25} />);
+      render(<AiChatUsageProgressBar currentUsage={5} usagePercentage={25} aiChatMaxLimit={5} />);
 
       expect(screen.queryByText(/Reset on:/)).not.toBeInTheDocument();
     });
@@ -105,9 +104,9 @@ describe('AiChatUsageProgressBar', () => {
 
   describe('Edge Cases', () => {
     it('should handle 0% usage correctly', () => {
-      render(<AiChatUsageProgressBar currentUsage={0} usagePercentage={0} />);
+      render(<AiChatUsageProgressBar currentUsage={0} usagePercentage={0} aiChatMaxLimit={5} />);
 
-      expect(screen.getByText('0/20 messages')).toBeInTheDocument();
+      expect(screen.getByText('0/5 messages')).toBeInTheDocument();
 
       const progressFill = screen.getByTestId('progressbar-fill');
       expect(progressFill).toHaveStyle({ width: '0%' });
@@ -115,9 +114,9 @@ describe('AiChatUsageProgressBar', () => {
     });
 
     it('should handle 100% usage correctly', () => {
-      render(<AiChatUsageProgressBar currentUsage={20} usagePercentage={100} />);
+      render(<AiChatUsageProgressBar currentUsage={5} usagePercentage={100} aiChatMaxLimit={5} />);
 
-      expect(screen.getByText('20/20 messages')).toBeInTheDocument();
+      expect(screen.getByText('5/5 messages')).toBeInTheDocument();
 
       const progressFill = screen.getByTestId('progressbar-fill');
       expect(progressFill).toHaveStyle({ width: '100%' });
@@ -125,14 +124,14 @@ describe('AiChatUsageProgressBar', () => {
     });
 
     it('should cap progress bar width at 100% even if usage exceeds 100%', () => {
-      render(<AiChatUsageProgressBar currentUsage={25} usagePercentage={125} />);
+      render(<AiChatUsageProgressBar currentUsage={25} usagePercentage={125} aiChatMaxLimit={5} />);
 
       const progressFill = screen.getByTestId('progressbar-fill');
       expect(progressFill).toHaveStyle({ width: '100%' });
     });
 
     it('should handle very high usage percentage', () => {
-      render(<AiChatUsageProgressBar currentUsage={50} usagePercentage={250} />);
+      render(<AiChatUsageProgressBar currentUsage={50} usagePercentage={250} aiChatMaxLimit={5} />);
 
       const progressFill = screen.getByTestId('progressbar-fill');
       expect(progressFill).toHaveStyle({ width: '100%' });
@@ -143,7 +142,7 @@ describe('AiChatUsageProgressBar', () => {
     it('should display usage information in a readable format', () => {
       render(<AiChatUsageProgressBar {...defaultProps} />);
 
-      expect(screen.getByText('5/20 messages')).toBeInTheDocument();
+      expect(screen.getByText('5/5 messages')).toBeInTheDocument();
     });
   });
 
@@ -151,7 +150,7 @@ describe('AiChatUsageProgressBar', () => {
     it('should apply correct CSS classes to container', () => {
       render(<AiChatUsageProgressBar {...defaultProps} />);
 
-      const container = screen.getByText('5/20 messages').parentElement;
+      const container = screen.getByText('5/5 messages').parentElement;
       expect(container).toHaveClass('text-xs', 'text-gray-500', 'flex', 'flex-col', 'items-start', 'mt-4');
     });
 

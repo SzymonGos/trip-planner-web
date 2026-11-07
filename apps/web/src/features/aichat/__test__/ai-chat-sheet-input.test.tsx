@@ -1,4 +1,6 @@
 import React from 'react';
+import { beforeEach, describe, expect, it } from '@jest/globals';
+import '@testing-library/jest-dom/jest-globals';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { AiChatSheetInput } from '../AiChatSheetInput';
 
@@ -12,13 +14,13 @@ jest.mock('lucide-react', () => ({
 
 describe('AiChatSheetInput', () => {
   const defaultProps = {
-    inputRef: React.createRef<HTMLTextAreaElement>(),
+    inputRef: React.createRef<HTMLTextAreaElement>() as React.RefObject<HTMLTextAreaElement>,
     inputValue: '',
     onInputChange: jest.fn(),
     onKeyPress: jest.fn(),
     isLoading: false,
     onSendMessage: jest.fn(),
-    authUserId: 'user-123',
+    authUserId: 123,
   };
 
   beforeEach(() => {
@@ -27,14 +29,14 @@ describe('AiChatSheetInput', () => {
 
   describe('Authentication State Rendering', () => {
     it('should render SignInButton when authUserId does not exist', () => {
-      render(<AiChatSheetInput {...defaultProps} authUserId="" />);
+      render(<AiChatSheetInput {...defaultProps} authUserId={0} />);
 
       expect(screen.getByTestId('sign-in-button')).toBeInTheDocument();
       expect(screen.getByText('Sign In')).toBeInTheDocument();
     });
 
     it('should render input component when authUserId exists', () => {
-      render(<AiChatSheetInput {...defaultProps} authUserId="user-123" />);
+      render(<AiChatSheetInput {...defaultProps} authUserId={123} />);
 
       expect(screen.getByTestId('ai-chat-input')).toBeInTheDocument();
       expect(screen.getByTestId('send-button')).toBeInTheDocument();

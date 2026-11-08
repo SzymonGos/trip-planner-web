@@ -4,6 +4,7 @@ import { TripCard } from '../trip/components/TripCard/TripCard';
 import { FC } from 'react';
 
 type TFeaturedDestinationsProps = {
+  /* eslint-disable @typescript-eslint/no-explicit-any */
   queryRef?: any;
 };
 

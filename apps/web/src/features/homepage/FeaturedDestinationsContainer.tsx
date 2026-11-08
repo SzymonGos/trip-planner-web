@@ -1,8 +1,10 @@
 // import { PreloadQuery } from '@/lib/apolloClient';
 import React from 'react';
 import { FeaturedDestinations } from './FeaturedDestinations';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Suspense } from 'react';
 import { Container } from '@/components/Container/Container';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { MultipleTripCardsLoader } from '../trip/components/MultipleTripCardsLoader';
 
 export const FeaturedDestinationsContainer = () => (

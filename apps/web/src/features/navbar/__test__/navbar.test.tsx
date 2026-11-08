@@ -8,9 +8,7 @@ import type { ReactNode } from 'react';
 jest.mock('@clerk/nextjs', () => ({
   useUser: jest.fn(),
   useAuth: jest.fn(() => ({ sessionId: 'session123' })),
-  SignOutButton: ({ children, ...props }: { children: ReactNode; [key: string]: unknown }) => (
-    <button {...props}>{children}</button>
-  ),
+  SignOutButton: ({ children }: { children: ReactNode }) => <button type="button">{children}</button>,
 }));
 
 jest.mock('@/hooks/useScrollY');

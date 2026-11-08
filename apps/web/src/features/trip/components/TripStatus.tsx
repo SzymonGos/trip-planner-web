@@ -1,8 +1,8 @@
 import { FC } from 'react';
+import type { TripStatus as TTripStatus } from '../types/types';
 
 type TTripStatusProps = {
-   
-  status: any;
+  status: TTripStatus;
 };
 
 export const TripStatus: FC<TTripStatusProps> = ({ status }) => (

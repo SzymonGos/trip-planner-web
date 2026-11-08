@@ -1,5 +1,5 @@
 import { apiClient } from '@/lib/api/apiClient';
-import { TripResponse, type TripSlice } from '../../types/types';
+import { TripSlice } from '../../types/types';
 import { TRIP_ENDPOINTS } from '../../constants/tripEndpoints';
 
 export const getTripsQuery = async (page: number) =>

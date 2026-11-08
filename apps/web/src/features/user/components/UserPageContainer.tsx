@@ -23,8 +23,6 @@ const UserPageContainer: FC<TUserPageContainerProps> = ({ username }) => {
 
   const isOwnProfile = authUserId === data?.id;
 
-  console.log(data?.userTrips);
-
   return (
     <div className="min-h-svh pt-14">
       <Container className="h-full mt-10 px-0 grid grid-cols-4 lg:grid-cols-12 gap-8">

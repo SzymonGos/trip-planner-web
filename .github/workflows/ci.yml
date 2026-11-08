@@ -38,4 +38,6 @@ jobs:
         run: npm run test --workspace web -- --runInBand
 
       - name: Production build
+        env:
+          NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: ${{ vars.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY }}
         run: npm run build

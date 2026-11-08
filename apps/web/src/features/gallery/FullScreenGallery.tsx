@@ -3,10 +3,10 @@ import { CldImage } from 'next-cloudinary';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
+import type { TripImagesResponse } from '../trip/types/types';
 
 interface FullScreenGalleryProps {
-   
-  images: any;
+  images: TripImagesResponse[];
   isOpen: boolean;
   onClose: () => void;
   fullScreenSrc: string;

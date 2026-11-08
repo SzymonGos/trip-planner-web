@@ -14,7 +14,7 @@ export default [
   { files: ['**/*.{js,mjs,cjs,ts}'] },
   { languageOptions: { globals: globals.browser } },
   {
-    ignores: ['**/.next/**', '.vscode'],
+    ignores: ['**/.next/**', '.vscode', '**/next-env.d.ts'],
   },
   pluginJs.configs.recommended,
   ...tseslint.configs.recommended,

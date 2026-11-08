@@ -10,7 +10,7 @@ type TTripsListProps = {
 
 export const TripsList: FC<TTripsListProps> = ({ trips }) => (
   <>
-    {trips?.map((trip: any) => (
+    {trips?.map((trip: TripResponse) => (
       <TripCard key={trip?.id} trip={trip} />
     ))}
   </>
